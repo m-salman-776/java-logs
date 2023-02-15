@@ -1,0 +1,12 @@
+/target/
+.idea/
+starship.iml
+.classpath
+.factorypath
+.project
+.settings/
+
+.DS_Store
+.ijwb/**
+
+Local.Dockerfile
