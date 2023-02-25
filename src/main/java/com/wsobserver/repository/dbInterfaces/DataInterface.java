@@ -9,4 +9,6 @@ public interface DataInterface <T> {
     void insert(T t);
     void update(T t,String []param);
     void delete(T t);
+
+    int getSize();
 }

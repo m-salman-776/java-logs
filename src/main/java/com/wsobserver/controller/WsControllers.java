@@ -1,7 +1,7 @@
 package com.wsobserver.controller;
 
 import com.wsobserver.models.classes.WeatherData;
-import com.wsobserver.repository.dbImpl.DbMock;
+import com.wsobserver.repository.dbInterfaces.DataInterface;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,10 +16,10 @@ import java.util.List;
 @Slf4j
 public class WsControllers {
     @Autowired
-    private DbMock wsData;
+    private DataInterface wsData;
     @GetMapping("/{id}")
     public ResponseEntity<WeatherData> getObserverById(@PathVariable(value = "id") long id){
-       WeatherData res = wsData.getById(id);
+       WeatherData res = (WeatherData) wsData.getById(id);
        if (res != null) return new ResponseEntity<>(res, HttpStatus.OK);
       return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
     }
@@ -38,7 +38,7 @@ public class WsControllers {
     }
     @PutMapping(path = "/{id}")
     public ResponseEntity<WeatherData> update(@PathVariable long id , @RequestBody WeatherData newWeatherData){
-        WeatherData weatherData = wsData.getById(id);
+        WeatherData weatherData = (WeatherData) wsData.getById(id);
         if (weatherData==null){
             return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
         }
@@ -48,7 +48,7 @@ public class WsControllers {
     }
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<WeatherData> delete(@PathVariable long id){
-        WeatherData weatherData = wsData.getById(id);
+        WeatherData weatherData = (WeatherData) wsData.getById(id);
         if (weatherData == null){
             return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
         }

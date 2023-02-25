@@ -17,6 +17,7 @@ public class DbMock implements DataInterface <WeatherData> {
         System.out.println("Initialized");
         data = new ArrayList<>();
     }
+    @Override
     public int getSize(){
         return this.data.size();
     }
