@@ -1,6 +1,5 @@
 package com.decorator;
 
-import com.decorator.implClass.DarkRoast;
 import com.decorator.implClass.Espresso;
 import com.decorator.implClass.decorators.Milk;
 import com.decorator.implClass.decorators.Soy;
