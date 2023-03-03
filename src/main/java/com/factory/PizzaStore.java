@@ -1,9 +1,10 @@
 package com.factory;
 
 public abstract class PizzaStore {
-    Pizza pizza;
+
    protected abstract Pizza createPizza(PizzaType type);
     public void orderPizza(){
+        Pizza pizza;
         pizza = createPizza(PizzaType.CHEESE);
         pizza.prepare();
         pizza.bake();

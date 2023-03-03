@@ -7,6 +7,10 @@
 Factory Pattern encapsulate object creation by letting the subclasses decide what object to create. 
 Factor Method let the class defer the instantiation to subclasses
 
+### Abstract Factory Pattern
+It provides an interface for creating families of related or
+dependent objects without specifying their concrete classes.
+
 
 
 ***
