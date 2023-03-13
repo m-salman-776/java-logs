@@ -10,9 +10,13 @@ import com.factory.PizzaType;
 import com.factory.ingredients.*;
 
 public class ChicagoStylePizzaStore extends PizzaStore {
+    PizzaIngredientFactory pizzaIngredientFactory;
+    public ChicagoStylePizzaStore(PizzaIngredientFactory pizzaIngredientFactory){
+        this.pizzaIngredientFactory = pizzaIngredientFactory;
+    }
     @Override
    protected Pizza createPizza(PizzaType type) {
-        PizzaIngredientFactory pizzaIngredientFactory = new ChicagoPizzaIngredientFactory();
+//        PizzaIngredientFactory pizzaIngredientFactory = new ChicagoPizzaIngredientFactory();
         if (type == PizzaType.CHEESE){
             return new ChicagoStyleCheesePizza(pizzaIngredientFactory);
         }else {

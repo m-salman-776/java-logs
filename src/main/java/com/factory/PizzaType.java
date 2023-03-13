@@ -2,5 +2,7 @@ package com.factory;
 
 public enum PizzaType {
     CHEESE,
-    CLAM
+    CLAM,
+    VEGGIE,
+    PEPPERONI,
 }

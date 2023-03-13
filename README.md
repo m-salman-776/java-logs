@@ -1,7 +1,16 @@
 # Design Patterns Implementation
 
+###  The Observer Pattern
+It defines a one-to-many dependency between objects so that when one object changes state, 
+all of its dependents are notified and updated automatically.
 
 ### Decorator Pattern
+The Decorator Pattern attaches additional responsibilities to an object dynamically.
+Decorators provide a flexible alternative to subclassing for extending functionality.
+It wraps the object for adding more behaviour. The decorator adds its own behavior either 
+before and/or after delegating it to object they decorate.Decorators have the same supertype as the objects they decorate
+
+
 
 ### Factory Pattern
 Factory Pattern encapsulate object creation by letting the subclasses decide what object to create. 
