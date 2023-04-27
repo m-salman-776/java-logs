@@ -7,19 +7,4 @@ public class NYStyleClamPizza extends Pizza {
     public void prepare() {
 
     }
-
-    @Override
-    public void bake() {
-
-    }
-
-    @Override
-    public void cut() {
-
-    }
-
-    @Override
-    public void box() {
-
-    }
 }

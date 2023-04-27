@@ -20,8 +20,19 @@ Factor Method let the class defer the instantiation to subclasses
 It provides an interface for creating families of related or
 dependent objects without specifying their concrete classes.
 
+### The Command Pattern
+It encapsulates a request as an object, thereby letting you parameterize other objects with different requests, 
+queue or log requests, and support undoable operations.When u need to decouple the object making the request
+from the object that know how to perform the requested action
 
+***Meta Command Pattern***
+allows you to create macros of commands so that you can execute multiple commands at once.
+Macro Commands are a simple extension of Command that allow multiple commands to be invoked
 
+### Template Method Pattern 
+It defines the skeleton of an algorithm in a method, deferring some steps to subclasses. 
+Template Method lets subclasses redefine certain steps of an algorithm without changing the 
+algorithm’s structure.
 ***
 ### Dependency Inversion Principal (DI)
 It says depend on abstractions. Do not depend on concrete classes.

@@ -44,6 +44,7 @@ public class WsControllers {
         }
         wsData.delete(weatherData);
         wsData.insert(newWeatherData);
+        log.
         return new ResponseEntity<>(weatherData,HttpStatus.OK);
     }
     @DeleteMapping(path = "/{id}")

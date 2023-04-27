@@ -16,7 +16,6 @@ public class ChicagoStylePizzaStore extends PizzaStore {
     }
     @Override
    protected Pizza createPizza(PizzaType type) {
-//        PizzaIngredientFactory pizzaIngredientFactory = new ChicagoPizzaIngredientFactory();
         if (type == PizzaType.CHEESE){
             return new ChicagoStyleCheesePizza(pizzaIngredientFactory);
         }else {

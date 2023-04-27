@@ -32,6 +32,7 @@ public class WeatherStation implements Subject {
     }
     public void setMeasurement(float temperature,float pressure,float humidity){
         weatherData = new WeatherData(temperature,humidity,pressure);
+        notifyObservers();
     }
     public void setMeasurement(){
         weatherData = new WeatherData();
