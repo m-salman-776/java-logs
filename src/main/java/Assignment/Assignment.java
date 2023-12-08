@@ -1,10 +1,11 @@
 package Assignment;
 
 import javax.xml.crypto.dsig.spec.XSLTTransformParameterSpec;
-import java.util.HashMap;
-import java.util.Scanner;
+import java.util.*;
 
 public class Assignment {
+    static Map<String, Queue<String>> g;
+    static List<String> ans;
     public static void main(String []args){
         Solution solution = new Solution();
         Scanner scanner = new Scanner(System.in);
@@ -13,8 +14,23 @@ public class Assignment {
         String ans = solution.solve(s,t);
         System.out.println(ans);
     }
-}
+    static void dfs(String src){
+        Queue<String> q = g.get(src);
+        while (q != null && !q.isEmpty()){
+            String  temp = q.poll();
+            dfs(temp);
+        }
+        ans.add(src);
+    }
 
+    public static void test(List<List<String>>tickets){
+        g = new HashMap<>();
+        for (var x : tickets){
+            g.computeIfAbsent(x.get(0),v -> new PriorityQueue<String>()).add(x.get(1));
+        }
+        dfs("");
+    }
+}
 class Solution {
     String solve(String s, String t){
         HashMap<Character,Integer> need = new HashMap();
