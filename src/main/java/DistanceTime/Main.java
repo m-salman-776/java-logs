@@ -19,7 +19,7 @@ public class Main {
         Consumer consumer1 = new Consumer("C1", consumer1Location);
 
         GPSLocation restaurant2Location = new GPSLocation(12.9352, 77.6245);
-        Restaurant restaurant2 = new Restaurant("R2", restaurant2Location, 20);
+        Restaurant restaurant2 = new Restaurant("R2", restaurant2Location, 20000);
 
         GPSLocation consumer2Location = new GPSLocation(12.9200, 77.6250);
         Consumer consumer2 = new Consumer("C2", consumer2Location);
