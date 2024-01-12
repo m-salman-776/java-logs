@@ -9,7 +9,7 @@ public class GPSLocation {
 
     public GPSLocation(Double latitude, Double longitude) {
         validateLatitude(latitude);
-        validateLatitude(longitude);
+        validateLongitude(longitude);
         this.latitude = latitude;
         this.longitude = longitude;
     }
