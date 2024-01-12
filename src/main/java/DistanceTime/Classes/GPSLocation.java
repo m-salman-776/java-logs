@@ -8,6 +8,8 @@ public class GPSLocation {
     Double longitude;
 
     public GPSLocation(Double latitude, Double longitude) {
+        validateLatitude(latitude);
+        validateLatitude(longitude);
         this.latitude = latitude;
         this.longitude = longitude;
     }
