@@ -1,5 +1,5 @@
 package RateLimiter.Interface;
 
 public interface RateLimiter {
-    boolean allowRequest(Long epoch);
+    boolean allowRequest(String clientId, int rateLimit, int timeWindowInSeconds);
 }

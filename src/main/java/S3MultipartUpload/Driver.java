@@ -1,4 +1,5 @@
 package S3MultipartUpload;
+import software.amazon.awssdk.services.s3.model.PutObjectResponse;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -6,37 +7,32 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.Comparator;
 
 public class Driver {
-
     private static final int PART_SIZE = 10;
     public static void main(String []args){
-        String accessKey = System.getenv("accessKey");
-        String secreteKey = System.getenv("secretKey");
-        TestInputStream();
 
-        String inputFile = "IO/input.txt"; // Replace with your input file path
-        String outputDirectory = "IO/output"; // Replace with your desired output directory
+        AwsClient awsClient = new AwsClient();
+        String bucketName = System.getenv("bucketName");
+        Path absolutePath = Paths.get("src/main/java/S3MultipartUpload/IO/input.txt").toAbsolutePath();
+        Path bigFile = Paths.get("").toAbsolutePath();
 
-        try {
-            splitFile(inputFile, outputDirectory);
-            assembleFile(outputDirectory);
-        } catch (IOException e) {
-            e.printStackTrace();
+        String objectKey = absolutePath.getFileName().toString();
+        String bigFileKey = bigFile.getFileName().toString();
+        PutObjectResponse response = awsClient.putObject(bucketName,objectKey,absolutePath);
+//        CompleteMultipartUploadResponse response = awsClient.uploadInMultiplePart(bucketName,"io/"+bigFileKey,bigFile);
+        System.out.println("File uploaded successfully!");
+    }
+    private static void createDirectoryIfNotExists(String directory) throws IOException {
+        Path directoryPath = Paths.get(directory);
+        if (!Files.exists(directoryPath)) {
+            Files.createDirectories(directoryPath);
         }
-
-
-//        AWSCredentials credentials = new BasicAWSCredentials(accessKey,secreteKey);
-//
-//        AmazonS3 amazonS3 = AmazonS3ClientBuilder
-//                .standard()
-//                .withCredentials(new AWSStaticCredentialsProvider(credentials))
-//                .withRegion(Regions.AP_SOUTH_1)
-//                .build();
     }
     private static void splitFile(String inputFile, String outputDirectory) throws IOException {
         File file = new File(inputFile);
-
         try (FileInputStream fis = new FileInputStream(file)) {
             byte[] buffer = new byte[PART_SIZE];
             int bytesRead;
@@ -52,43 +48,28 @@ public class Driver {
         }
     }
     private static void assembleFile(String outputDirectory) throws IOException {
+        Comparator<File> comparator = (File s1,File s2) -> {
+            if (s1.getPath().length() < s2.getPath().length()) return -1;
+            else if  (s1.getPath().length() > s2.getPath().length()) return 1;
+            for (int i=0;i<s1.getPath().length();i++){
+                if (s1.getPath().charAt(i) > s2.getPath().charAt(i)) return 1;
+                if (s1.getPath().charAt(i) < s2.getPath().charAt(i)) return -1;
+            }
+            return 1;
+        };
         File[] parts = new File(outputDirectory).listFiles((dir, name) -> name.startsWith("part"));
-
-        if (parts != null && parts.length > 0) {
-            try (FileOutputStream fos = new FileOutputStream("assembled.txt")) {
+        assert parts != null;
+        Arrays.sort(parts,comparator);
+        if (parts.length > 0) {
+            Path assembledFilePath = Path.of(outputDirectory, "assembled.txt");
+            if (!Files.exists(assembledFilePath)) {
+                Files.createDirectories(assembledFilePath);
+            }
+            try (FileOutputStream fos = new FileOutputStream(assembledFilePath.toFile())) {
                 for (File part : parts) {
                     Files.copy(part.toPath(), fos);
                 }
             }
         }
-    }
-
-
-    public static void TestInputStream() {
-        try {
-            // Specify the path of the file to be read
-//            String filePath = "F1/f2/input.txt";
-
-            String filePath = "S3MultipartUpload/IO/input.txt";
-            Path absolutePathFile1 = Paths.get(filePath).toAbsolutePath();
-
-            File file = new File(filePath);
-            // relative path S3MultipartUpload/IO/input.txt (1)
-            // relative path S3MultipartUpload/IO/Driver.java  (2)
-            // above mentione are relative path i want to read file (1) from (2) how to do that
-            // Create a FileInputStream object
-            FileInputStream fis = new FileInputStream(absolutePathFile1.toFile());
-            // Read bytes from the file
-            int byteData;
-            while ((byteData = fis.read()) != -1) {
-                // Process the byte (you can do whatever you need here)
-                System.out.print((char) byteData);
-            }
-            // Close the FileInputStream
-            fis.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        System.out.println("DONE");
     }
 }

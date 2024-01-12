@@ -59,6 +59,14 @@
 			<artifactId>kafka-streams</artifactId>
 			<version>3.5.0</version>  <!-- Use the latest version -->
 		</dependency>
+
+		<!-- MySQL JDBC Driver -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>8.0.28</version> <!-- Use the latest version available -->
+		</dependency>
+
 	</dependencies>
 
 	<build>

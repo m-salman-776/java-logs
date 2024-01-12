@@ -1,0 +1,29 @@
+Design Chess Game
+
+Make Move (b1 -> b2)
+Step 1 : Check if this move is valid (check if b2 contains same color piece)
+Step 2 : Will current player under attack after this
+Step 3 : Check if b2 contains a piece  collect it
+Step 4 : If piece moved a pawn and b2 is last row if yes promote it to Queen / Kight / Bishop
+Step 5 : Is this a castling move
+Step 6 : Does this move result in checkmate
+
+
+Common : b2 cell must not contain same colour piece
+
+King Make Move : abs(x1-x2) + abs(y1-y2) == 1
+if(x < 2 && y < 2 && x+y > 0 ) {
+           return true;
+       }
+Castling Move :
+
+Queen : Bishop + Rock
+
+Bishop : abs(x1-x2) == abs(y1-y2)
+
+Rock : x1 == x2 || y1 == y1
+
+Knight : abs(x1-x2) * abs(y1-y2) == 2
+
+Pawn : 1 / 2 / cross
+

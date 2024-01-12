@@ -1,19 +1,15 @@
 package RateLimiter;
 
-import com.sun.source.tree.Tree;
-
-import java.util.Arrays;
-import java.util.Set;
-import java.util.TreeSet;
+import RateLimiter.Implementations.FixedWindow;
+import RateLimiter.Implementations.RedisStorage;
+import RateLimiter.Interface.RateLimiter;
+import RateLimiter.Interface.RateLimiterStorage;
 
 public class Driver {
     public static void main(String []args){
-        TreeSet<Integer> set = new TreeSet<>(Arrays.asList(1, 2, 4, 5, 6, 7, 8));
-        int val = 4;
-        while (!set.isEmpty() && set.first() < val ){
-            set.pollFirst();
-        }
-        System.out.println(set);
-        System.out.println("DONE");
+        RateLimiterStorage storage = new RedisStorage("redis",6357,345);
+        RateLimiter rateLimiter = new FixedWindow(storage);
+        RateLimitService service = new RateLimitService(rateLimiter);
+        service.allowed("s",1,123);
     }
 }
