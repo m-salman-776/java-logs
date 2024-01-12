@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        GPSLocation initialLocation = new GPSLocation(0, 0);
+        GPSLocation initialLocation = new GPSLocation(0.0, 0.0);
 
         DeliveryPartner aman = new DeliveryPartner("aman",initialLocation);
 
@@ -29,7 +29,7 @@ public class Main {
         orders.add(new Order(restaurant2, consumer2));
 
         DeliveryRoute deliveryService = new DeliveryRoute(new HaversineDistance());
-        List<DeliveryStep> optimizedDeliveryPath = deliveryService.calculateOptimizedDeliveryPath(aman.getLocation(),25,orders);
+        List<DeliveryStep> optimizedDeliveryPath = deliveryService.calculateOptimizedDeliveryPath(aman.getLocation(), 3.14,orders);
 
         System.out.println("Optimized Delivery Path:");
         for (DeliveryStep step : optimizedDeliveryPath) {

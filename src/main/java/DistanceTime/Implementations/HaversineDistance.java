@@ -7,6 +7,9 @@ public class HaversineDistance implements DistanceCalculator {
     Double earthRadius = 6371000 * 1.0;
     @Override
     public Double calculate(GPSLocation location1, GPSLocation location2) {
+        if (location1 == null || location2 == null) {
+            throw new IllegalArgumentException("GPS locations cannot be null.");
+        }
         Double lat1 = location1.getLatitude(),  long1 = location1.getLongitude();
         Double lat2 = location2.getLatitude() , long2 = location2.getLongitude();
         lat1 = toRadians(lat1);

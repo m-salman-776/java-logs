@@ -8,7 +8,10 @@ public class DeliveryRoute {
     public DeliveryRoute(DistanceCalculator distanceCalculator) {
         this.distanceCalculator = distanceCalculator;
     }
-    public List<DeliveryStep> calculateOptimizedDeliveryPath(GPSLocation initialLocation, double avgSpeed, List<Order> orders) {
+    public List<DeliveryStep> calculateOptimizedDeliveryPath(GPSLocation initialLocation, Double avgSpeed, List<Order> orders) {
+        if (initialLocation == null || orders == null) {
+            throw new IllegalArgumentException("Initial location and orders cannot be null.");
+        }
         List<DeliveryStep> path = new ArrayList<>();
         List<Order> unvisitedOrders = new ArrayList<>(orders);
         GPSLocation currentLocation = initialLocation;
@@ -25,7 +28,7 @@ public class DeliveryRoute {
         return path;
     }
 
-    private Order findBestOrder(GPSLocation currentLocation, List<Order> unvisitedOrders, double speed) {
+    private Order findBestOrder(GPSLocation currentLocation, List<Order> unvisitedOrders, Double speed) {
         double minTotalTime = Double.MAX_VALUE;
         Order bestOrder = null;
         for (Order order : unvisitedOrders) {
