@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class main {
     static Map<String,Integer> mp;
@@ -23,8 +24,43 @@ public class main {
         ans += val;
         return ans;
     }
+
+   static void findKth(int arr[] , int k){
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+
+        for (int val : arr){
+            pq.add(val);
+            if (pq.size() > k){
+                pq.poll();
+            }
+        }
+        // O(N * logK)
+
+        if (pq.isEmpty()){
+            // edge case
+            System.out.println("Edge case");
+            return;
+        }
+        int ans = pq.peek();
+        System.out.println(ans);
+    }
+
+    static void find(int []arr){
+        int size = arr.length;
+        int ans = 0;
+        int count[] = new int[size];
+        for (int i=0;i<size;i++){
+            count[i] = 1;
+            for (int j=0;j<i;j++){
+                if (arr[i] > arr[j]){
+                    count[i] = Math.max(count[i],count[j]+1);
+                    ans = Math.max(ans,count[i]);
+                }
+            }
+        }
+        System.out.println(ans);
+    }
     public static void main(String []args){
-        mp = new HashMap<>();
 
         int size = 10;
         String str[] = new String[size];

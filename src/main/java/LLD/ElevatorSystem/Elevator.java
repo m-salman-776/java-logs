@@ -54,7 +54,7 @@ public class Elevator {
         }
     }
     private void upRequests(){
-        while (!this.upRequests.isEmpty()){
+        while (!this.upRequests.isEmpty() ){
             Request request = this.upRequests.poll();
             // System Handler;
             this.currentFloor = request.getFloor();
