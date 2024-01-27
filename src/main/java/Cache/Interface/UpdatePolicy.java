@@ -1,6 +1,6 @@
 package Cache.Interface;
 
-public interface EvictionPolicy<K> {
+public interface UpdatePolicy<K> {
     void onPut(K key);
     K onAccess(K key);
 }

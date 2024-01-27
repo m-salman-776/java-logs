@@ -1,11 +1,10 @@
 package Cache.Implementations;
 
-import Cache.Interface.EvictionPolicy;
-import ch.qos.logback.core.joran.sanity.Pair;
+import Cache.Interface.UpdatePolicy;
 
 import java.util.*;
 
-public class LRU <K,V> implements EvictionPolicy<K> {
+public class LRU <K,V> implements UpdatePolicy<K> {
 
     List<K> list;
     Long size;
