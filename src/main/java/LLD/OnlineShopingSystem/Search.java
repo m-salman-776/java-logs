@@ -1,5 +1,7 @@
 package LLD.OnlineShopingSystem;
 
+import LLD.OnlineShopingSystem.Classes.Product;
+
 import java.util.List;
 
 public interface Search {

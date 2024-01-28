@@ -1,4 +1,4 @@
-package LLD.OnlineShopingSystem;
+package LLD.OnlineShopingSystem.Classes;
 
 
 import LLD.OnlineShopingSystem.Common.OrderStatus;

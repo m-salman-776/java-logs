@@ -1,4 +1,4 @@
-package LLD.OnlineShopingSystem;
+package LLD.OnlineShopingSystem.Classes;
 
 public class Item {
     int quantity;

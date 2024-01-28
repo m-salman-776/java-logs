@@ -2,7 +2,7 @@ package LLD.OnlineShopingSystem.SearchImple;
 
 
 
-import LLD.OnlineShopingSystem.Product;
+import LLD.OnlineShopingSystem.Classes.Product;
 import LLD.OnlineShopingSystem.Search;
 
 import java.util.HashMap;

@@ -1,4 +1,6 @@
-package LLD.OnlineShopingSystem;
+package LLD.OnlineShopingSystem.Classes;
+
+import LLD.OnlineShopingSystem.Classes.Item;
 
 import java.util.List;
 

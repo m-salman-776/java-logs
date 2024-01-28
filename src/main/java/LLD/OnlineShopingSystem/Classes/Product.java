@@ -1,4 +1,4 @@
-package LLD.OnlineShopingSystem;
+package LLD.OnlineShopingSystem.Classes;
 
 public class Product {
     String name;
