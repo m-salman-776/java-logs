@@ -6,6 +6,7 @@ import com.amazonaws.services.dynamodbv2.xspec.N;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class LFU<K,V> implements Cache<K,V> {
     Map<K,Integer> countMap;
