@@ -1,7 +1,7 @@
-package IncidentAlterting.Services;
+package LLD.IncidentAlterting.Services;
 
-import IncidentAlterting.Classes.Project;
-import IncidentAlterting.Repository.ProjectRepo;
+import LLD.IncidentAlterting.Classes.Project;
+import LLD.IncidentAlterting.Repository.ProjectRepo;
 
 public class ProjectService {
     ProjectRepo projectRepo;

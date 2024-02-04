@@ -1,7 +1,7 @@
-package IncidentAlterting.Services;
+package LLD.IncidentAlterting.Services;
 
-import IncidentAlterting.Classes.Incident;
-import IncidentAlterting.Repository.IncidentRepo;
+import LLD.IncidentAlterting.Classes.Incident;
+import LLD.IncidentAlterting.Repository.IncidentRepo;
 
 public class IncidentService {
     IncidentRepo incidentRepo;

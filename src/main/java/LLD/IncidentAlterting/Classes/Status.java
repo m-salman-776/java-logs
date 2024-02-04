@@ -1,4 +1,4 @@
-package IncidentAlterting.Classes;
+package LLD.IncidentAlterting.Classes;
 
 public enum Status {
     NO_STATUS ,

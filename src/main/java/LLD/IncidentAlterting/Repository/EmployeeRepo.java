@@ -1,6 +1,6 @@
-package IncidentAlterting.Repository;
+package LLD.IncidentAlterting.Repository;
 
-import IncidentAlterting.Classes.Employee;
+import LLD.IncidentAlterting.Classes.Employee;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,9 +1,9 @@
-package IncidentAlterting;
+package LLD.IncidentAlterting;
 
-import IncidentAlterting.Classes.*;
-import IncidentAlterting.Services.EmployeeService;
-import IncidentAlterting.Services.IncidentService;
-import IncidentAlterting.Services.ProjectService;
+import LLD.IncidentAlterting.Classes.*;
+import LLD.IncidentAlterting.Services.EmployeeService;
+import LLD.IncidentAlterting.Services.IncidentService;
+import LLD.IncidentAlterting.Services.ProjectService;
 
 public class IncidentAlerting {
     EmployeeService employeeService;

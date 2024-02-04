@@ -1,7 +1,7 @@
-package IncidentAlterting.Repository;
+package LLD.IncidentAlterting.Repository;
 
-import IncidentAlterting.Classes.Incident;
-import IncidentAlterting.Classes.Status;
+import LLD.IncidentAlterting.Classes.Incident;
+import LLD.IncidentAlterting.Classes.Status;
 
 import java.util.HashMap;
 import java.util.Map;

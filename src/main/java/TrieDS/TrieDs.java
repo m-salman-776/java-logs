@@ -35,6 +35,15 @@ public class TrieDs {
         }
         return new ArrayList<>(uniqueId);
     }
+    void dfs(Node node){
+        if (node == null) return;
+        if (node.complete){
+            //
+        }
+        for (Map.Entry<Character,Node> child : node.child.entrySet()){
+            dfs(child.getValue());
+        }
+    }
 }
 
 class Node {

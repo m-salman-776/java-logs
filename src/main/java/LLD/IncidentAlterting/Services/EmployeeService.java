@@ -1,7 +1,7 @@
-package IncidentAlterting.Services;
+package LLD.IncidentAlterting.Services;
 
-import IncidentAlterting.Classes.Employee;
-import IncidentAlterting.Repository.EmployeeRepo;
+import LLD.IncidentAlterting.Classes.Employee;
+import LLD.IncidentAlterting.Repository.EmployeeRepo;
 
 public class EmployeeService {
     // TODO could implement interface
