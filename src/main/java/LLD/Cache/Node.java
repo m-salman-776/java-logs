@@ -1,4 +1,4 @@
-package Cache;
+package LLD.Cache;
 
 class Node<K,V> {
     public K key;

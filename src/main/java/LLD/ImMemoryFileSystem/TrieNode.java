@@ -29,7 +29,7 @@ class Trie {
             String paths [] = path.split("/");
             for (int i=1;i<paths.length;i++){
                 String currString = paths[i];
-                temp =temp.children.get(currString);
+                temp = temp.children.get(currString);
                 if (i == paths.length-1 && temp.content != null){
                     return List.of(currString);
                 }

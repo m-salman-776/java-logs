@@ -1,7 +1,7 @@
-package Cache.Implementations;
+package LLD.Cache.Implementations;
 
-import Cache.Interface.Cache;
-import Cache.Interface.UpdatePolicy;
+import LLD.Cache.Interface.Cache;
+import LLD.Cache.Interface.UpdatePolicy;
 
 import java.util.Map;
 

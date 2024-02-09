@@ -29,7 +29,6 @@ class MonthlyStatements extends Statements{
     }
 }
 class HalfYearlyStatements extends Statements{
-
     @Override
     void generate(Date start, Date end) {
 

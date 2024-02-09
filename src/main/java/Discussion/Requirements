@@ -1,0 +1,86 @@
+Review System
+1. User can add rating (0-5) to a product
+2. Text based review for same rating
+3. Like the Review
+4. API for top 10 review based on likes for product;
+
+Expectation
+   data model
+   api
+   classes / entity
+
+
+Entities
+1. User
+2. Product
+3. Review
+4. Like
+
+DataModels
+1.User
+    id
+    name
+    emailId
+    createAt
+    updatedAt
+
+2.Product
+    id
+    name
+    category
+    price
+    createAt
+    updatedAt
+
+3.Review
+    id
+    text :
+    rating
+    user_id
+    product_id
+    createAt
+    updatedAt
+
+4.Like
+    id
+    user_id
+    review_id
+    createAt
+    updatedAt
+
+select r.productId , l.reviewId , count(l.userId) from Like l , Review r
+    where l.reviewId = r.id and r.productid = XYZ
+    group by r.productId,l.reviewId order count(l.userId) desc limit k;
+5. ReviewLike
+    id
+    reviewId
+    count
+
+
+API
+    User
+    1.create (name,email)
+    2.update (id , name , email)
+    3.read (id)
+    3.delete (id)
+
+
+    Review & Rating
+    -----------------
+    addReview
+        productId
+        text
+        userId
+        rating (0-5)
+
+    likeReview
+        reviewId
+        like/Unlike
+
+    topKReview
+        topK
+
+
+
+    select reviewId,count(distinct userId) from Like where reviewId in (<>)
+    group by re

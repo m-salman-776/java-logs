@@ -1,7 +1,4 @@
-package Cache;
-
-import Cache.Implementations.LFU;
-import Cache.Interface.Cache;
+package LLD.Cache;
 
 import java.util.*;
 

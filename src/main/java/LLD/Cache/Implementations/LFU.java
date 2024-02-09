@@ -1,12 +1,9 @@
-package Cache.Implementations;
+package LLD.Cache.Implementations;
 
-import Cache.Interface.Cache;
-import com.amazonaws.services.dynamodbv2.xspec.M;
-import com.amazonaws.services.dynamodbv2.xspec.N;
+import LLD.Cache.Interface.Cache;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.TreeMap;
 
 public class LFU<K,V> implements Cache<K,V> {
     Map<K,Integer> countMap;
@@ -71,6 +68,8 @@ class NodeList <K>{
         map = new HashMap<>();
         head = new Node<>(null);
         tail = new Node<>(null);
+        head.next = tail;
+        tail.prev = head;
     }
     void  add(K key){
         Node<K> node = new Node<>(key);

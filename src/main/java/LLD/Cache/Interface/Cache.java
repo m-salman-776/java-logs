@@ -1,4 +1,4 @@
-package Cache.Interface;
+package LLD.Cache.Interface;
 
 public interface Cache<K,V> {
     V get(K key);

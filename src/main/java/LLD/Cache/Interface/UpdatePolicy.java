@@ -1,4 +1,4 @@
-package Cache.Interface;
+package LLD.Cache.Interface;
 
 public interface UpdatePolicy<K> {
     void onPut(K key);
