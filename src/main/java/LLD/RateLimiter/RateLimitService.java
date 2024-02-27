@@ -1,7 +1,6 @@
-package RateLimiter;
+package LLD.RateLimiter;
 
-import RateLimiter.Interface.RateLimiter;
-import RateLimiter.Interface.RateLimiterStorage;
+import LLD.RateLimiter.Interface.RateLimiter;
 
 public class RateLimitService {
     private RateLimiter rateLimiter;

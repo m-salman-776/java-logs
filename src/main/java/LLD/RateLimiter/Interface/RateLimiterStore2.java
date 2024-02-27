@@ -1,4 +1,4 @@
-package RateLimiter.Interface;
+package LLD.RateLimiter.Interface;
 
 import java.util.List;
 

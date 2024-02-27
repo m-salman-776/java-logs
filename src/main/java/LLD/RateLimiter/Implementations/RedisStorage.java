@@ -1,7 +1,6 @@
-package RateLimiter.Implementations;
+package LLD.RateLimiter.Implementations;
 
-import RateLimiter.Interface.RateLimiterStorage;
-import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
+import LLD.RateLimiter.Interface.RateLimiterStorage;
 
 public class RedisStorage implements RateLimiterStorage {
     @Override

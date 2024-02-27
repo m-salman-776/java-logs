@@ -1,4 +1,4 @@
-package TrieDS;
+package DSDesign;
 
 import java.util.List;
 

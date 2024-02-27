@@ -1,9 +1,4 @@
-package RateLimiter;
-
-import RateLimiter.Implementations.FixedWindow;
-import RateLimiter.Implementations.RedisStorage;
-import RateLimiter.Interface.RateLimiter;
-import RateLimiter.Interface.RateLimiterStorage;
+package LLD.RateLimiter;
 
 public class Driver {
     public static void main(String []args){

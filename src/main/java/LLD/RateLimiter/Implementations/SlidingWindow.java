@@ -1,7 +1,7 @@
-package RateLimiter.Implementations;
+package LLD.RateLimiter.Implementations;
 
-import RateLimiter.Interface.RateLimiter;
-import RateLimiter.Interface.RateLimiterStorage;
+import LLD.RateLimiter.Interface.RateLimiter;
+import LLD.RateLimiter.Interface.RateLimiterStorage;
 
 import java.util.*;
 

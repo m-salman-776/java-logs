@@ -1,4 +1,4 @@
-package RateLimiter.Interface;
+package LLD.RateLimiter.Interface;
 public interface RateLimiterStorage {
     void incrementCounter(String key);
 

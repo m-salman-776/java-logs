@@ -3,6 +3,22 @@ import java.util.stream.Collectors;
 
 public class main {
     static Map<String,Integer> mp;
+
+    static void optimise(){
+        int hra = 600000;
+        double maxBase = 750000;
+        double maxDed = 0;
+        double rentPaid = 588000;
+        for (double base = 750000 ; base <= 750000 + 1850400 ; base+=1000){
+            double curr = Collections.min(Arrays.asList(0.4*base , 1.0*hra,rentPaid-0.1*base));
+            if (curr > maxDed){
+                maxDed = curr;
+                maxBase = base;
+            }
+        }
+        System.out.println("Base :"+maxBase +" MaxDed "+maxDed);
+        System.out.println("DONE");
+    }
     public static int makeNumber(String num){
         String [] words = num.split(" ");
         Set<String> st = new HashSet<>();
@@ -61,19 +77,19 @@ public class main {
         System.out.println(ans);
     }
     public static void main(String []args){
-
-        int size = 10;
-        String str[] = new String[size];
-        int arr[][] = new int[size][2];
-        for (int i=0;i<size;i++){
-            int val = makeNumber(str[i]);
-            arr[i] = new int[]{val,i};
-        }
-        Arrays.sort(arr,(a,b)->Integer.compare(a[0],b[0]));
-        for (int []e : arr){
-            System.out.print(str[e[1]]+" ");
-        }
-        System.out.println("DINE");
+//        optimise();
+//        int size = 10;
+//        String str[] = new String[size];
+//        int arr[][] = new int[size][2];
+//        for (int i=0;i<size;i++){
+//            int val = makeNumber(str[i]);
+//            arr[i] = new int[]{val,i};
+//        }
+//        Arrays.sort(arr,(a,b)->Integer.compare(a[0],b[0]));
+//        for (int []e : arr){
+//            System.out.print(str[e[1]]+" ");
+//        }
+//        System.out.println("DINE");
     }
 }
 

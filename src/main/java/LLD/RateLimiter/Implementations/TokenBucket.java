@@ -1,13 +1,7 @@
-package RateLimiter.Implementations;
+package LLD.RateLimiter.Implementations;
 
-import RateLimiter.Interface.RateLimiter;
-import RateLimiter.Interface.RateLimiterStorage;
-
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.ArrayBlockingQueue;
+import LLD.RateLimiter.Interface.RateLimiter;
+import LLD.RateLimiter.Interface.RateLimiterStorage;
 
 public class TokenBucket implements RateLimiter {
     RateLimiterStorage storage;
