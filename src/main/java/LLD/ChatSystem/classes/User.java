@@ -22,6 +22,11 @@ public class User implements Observer , Comparable<User> {
         System.out.println("Message : " + message.getContent() + " " + message.getSentAt());
     }
 
+
+//    public void sendMessage(String s){
+//        this.chatClient.sendAllMessage();
+//    }
+
     @Override
     public int compareTo(User o) {
         return Integer.compare(this.id,o.id);

@@ -1,8 +1,6 @@
 package LLD.MySql.Classes;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Table {
     String name;
@@ -24,9 +22,24 @@ public class Table {
         this.tableData.put(this.autoIncrement,rowData);
         return true;
     }
+
+    public List<Map<String,Column>> getDataByPrimaryKey(int []primary){
+        List<Map<String,Column>> ls = new ArrayList<>();
+        for (int a : primary){
+            if (this.tableData.containsKey(a)){
+                ls.add(this.tableData.get(a));
+            }
+        }
+        return ls;
+    }
     private void indexRow(Map<String,Column>row,int primaryKey){
         for (Map.Entry<String,Index> indexEntry : indexMap.entrySet()){
-//            indexEntry.getValue().
+            Index index = indexEntry.getValue();
+            for (Map.Entry<String,Column> data : row.entrySet()){
+                Column column = data.getValue();
+                if (!index.index.containsKey(column.name)) continue;
+                index.index.computeIfAbsent(column.name,k->new TreeSet<>()).add(primaryKey);
+            }
         }
     }
 }

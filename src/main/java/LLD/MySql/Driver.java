@@ -11,12 +11,9 @@ import java.util.Arrays;
 
 public class Driver {
     public static void main(String[] args) {
-//        Column<Integer> id = new IntDataType(0,10);
-//        IntDataType dataType = new IntDataType(0,10);
-//        StringDataType stringDataType = new StringDataType(100);
-//        Column<Integer> id = new Column<>("id",dataType,true);
-//        Column<String> name = new Column<>("name",stringDataType,true);
-//        Schema schema = new Schema(Arrays.asList(id,name));
-//        Table student = new Table("student","id",schema);
+        IntDataType id = new IntDataType("id",true,1,1000);
+        StringDataType name = new StringDataType("name",true,10);
+        Schema schema = new Schema(Arrays.asList(id,name));
+        Table student = new Table("student","id",schema);
     }
 }

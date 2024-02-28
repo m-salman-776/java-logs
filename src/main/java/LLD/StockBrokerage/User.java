@@ -7,12 +7,12 @@ import java.util.HashMap;
 import java.util.List;
 
 public class User {
-    Account account;
-    HashMap<String,WatchList> watchListHashMap;
-    List<Statements> statements;
-    void addStockToWatchList(Stock stock,String watchList){
-        watchListHashMap.get(watchList).addStockToWatchList(stock);
-    }
+//    Account account;
+//    HashMap<String,WatchList> watchListHashMap;
+//    List<Statements> statements;
+//    void addStockToWatchList(Stock stock,String watchList){
+//        watchListHashMap.get(watchList).addStockToWatchList(stock);
+//    }
 }
 
 abstract class  Statements {
