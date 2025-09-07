@@ -2,12 +2,14 @@ package RBAC.Classes;
 
 import lombok.Getter;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
 @Getter
 class Folder extends Resource {
-    private Set<Resource> contents;
+    private final Set<Resource> contents;
     public Folder(String name) {
         super(name);
         this.contents = new HashSet<>();

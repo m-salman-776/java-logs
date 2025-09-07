@@ -1,6 +1,5 @@
 package kafka;
 
-import jdk.jfr.Description;
 import org.apache.kafka.streams.kstream.SessionWindows;
 import org.apache.kafka.streams.kstream.SlidingWindows;
 import org.apache.kafka.streams.kstream.TimeWindows;
