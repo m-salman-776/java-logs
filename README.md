@@ -1,9 +1,13 @@
 # Design Patterns Implementation
 
+### 1.Strategy Pattern
+Defines a family of algorithms,encapsulate each one and make them interchangeable.Strategy let the algorithm vary independently from the client that uses it.
+![Architecture Diagram](Assets/strategy-pattern.png)
 ###  The Observer Pattern
 It defines a one-to-many dependency between objects so that when one object changes state, 
 all of its dependents are notified and updated automatically.
-
+Strive for loosely coupled designed between the object that interacts
+![Architecture Diagram](Assets/observer-pattern.png)
 ### Decorator Pattern
 The Decorator Pattern attaches additional responsibilities to an object dynamically.
 Decorators provide a flexible alternative to subclassing for extending functionality.
