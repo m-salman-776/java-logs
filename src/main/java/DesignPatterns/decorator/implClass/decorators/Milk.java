@@ -4,7 +4,7 @@ import DesignPatterns.decorator.Beverage;
 import DesignPatterns.decorator.implClass.CondimentDecorator;
 
 public class Milk extends CondimentDecorator {
-    Beverage beverage;
+//    Beverage beverage;
     public Milk(Beverage beverage){
         this.beverage = beverage;
     }

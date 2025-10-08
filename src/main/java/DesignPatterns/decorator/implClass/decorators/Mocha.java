@@ -4,7 +4,7 @@ import DesignPatterns.decorator.Beverage;
 import DesignPatterns.decorator.implClass.CondimentDecorator;
 
 public class Mocha extends CondimentDecorator {
-    Beverage beverage;
+//    Beverage beverage;
     public Mocha(Beverage beverage){
         this.beverage = beverage;
     }

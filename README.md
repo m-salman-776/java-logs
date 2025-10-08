@@ -3,22 +3,25 @@
 ### 1.Strategy Pattern
 Defines a family of algorithms,encapsulate each one and make them interchangeable.Strategy let the algorithm vary independently from the client that uses it.
 ![Architecture Diagram](Assets/strategy-pattern.png)
+
 ###  The Observer Pattern
 It defines a one-to-many dependency between objects so that when one object changes state, 
 all of its dependents are notified and updated automatically.
 Strive for loosely coupled designed between the object that interacts
 ![Architecture Diagram](Assets/observer-pattern.png)
+
 ### Decorator Pattern
 The Decorator Pattern attaches additional responsibilities to an object dynamically.
 Decorators provide a flexible alternative to subclassing for extending functionality.
 It wraps the object for adding more behaviour. The decorator adds its own behavior either 
 before and/or after delegating it to object they decorate.Decorators have the same supertype as the objects they decorate
-
+![Architecture Diagram](Assets/decorator-pattern.png)
 
 
 ### Factory Pattern
 Factory Pattern encapsulate object creation by letting the subclasses decide what object to create. 
 Factor Method let the class defer the instantiation to subclasses
+
 
 ### Abstract Factory Pattern
 It provides an interface for creating families of related or

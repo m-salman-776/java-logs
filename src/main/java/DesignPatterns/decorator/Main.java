@@ -4,8 +4,8 @@ import DesignPatterns.decorator.implClass.Espresso;
 import DesignPatterns.decorator.implClass.decorators.Milk;
 import DesignPatterns.decorator.implClass.decorators.Soy;
 
-public class main {
-    public static void main(String args[]){
+public class Main {
+    public static void main(String []args){
         Beverage beverage = new Espresso();
         System.out.println("Description : " + beverage.getDescription()+"  cost : "+beverage.cost());
 
