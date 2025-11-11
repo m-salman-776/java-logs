@@ -14,7 +14,10 @@ public class Board {
     }
     public Player makeMove(Player player,int row, int col){
         if (row < 0 || row >= size || col < 0 || col>=size) {
-            // TODO
+            throw new IllegalArgumentException("Invalid move: out of bounds");
+        }
+        if (board[row][col] != '\u0000') {
+            throw new IllegalArgumentException("Invalid move: cell already occupied");
         }
         int val = player.symbol == 'X' ? -1 : 1;
         board[row][col]  = player.symbol;
