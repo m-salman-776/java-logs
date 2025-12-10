@@ -1,0 +1,25 @@
+package Project101.OnlineShopingSystem.Classes;
+
+
+
+import Project101.OnlineShopingSystem.Common.OrderStatus;
+
+import java.util.Date;
+import java.util.List;
+
+public class Order {
+    String orderNumber;
+    OrderStatus status;
+    Date orderDate;
+    List<OrderLog> orderLogs;
+    boolean sendForShipment(){
+        return true;
+    }
+    boolean makePayment(Payment payment){
+        return true;
+    }
+    boolean addOrderLog(OrderLog orderLog){
+        this.orderLogs.add(orderLog);
+        return true;
+    }
+}
