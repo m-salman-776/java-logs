@@ -1,6 +1,6 @@
 package Project101.Calendar.service;
 
-import Project101.Calendar.factory.RecurrenceStrategyFactory;
+import Project101.Calendar.strategy.RecurrenceStrategyFactory;
 import Project101.Calendar.model.Event;
 import Project101.Calendar.model.EventInstance;
 import Project101.Calendar.model.MeetException;

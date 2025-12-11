@@ -15,16 +15,11 @@ public class Event {
     String title;
     String description;
     String organizerId;
-
     LocalDateTime startTimeUtc;
     Duration duration;
-
     RecurrenceRule recurrenceRule;
-
     List<String> attendee;
-
     ZoneId zoneId;
-
     // Constructor, getters...
     public Event(String title, String description, String organizerId, LocalDateTime startTimeUtc, Duration duration) {
         this.title = title;

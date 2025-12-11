@@ -1,8 +1,6 @@
-package Project101.Calendar.factory;
+package Project101.Calendar.strategy;
 
 import Project101.Calendar.model.RecurrenceRule;
-import Project101.Calendar.strategy.RecurrenceStrategy;
-import Project101.Calendar.strategy.WeeklyStrategy;
 // Import other strategies as they are created
 
 public class RecurrenceStrategyFactory {
