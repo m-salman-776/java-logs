@@ -7,7 +7,7 @@ import Project101.Auth.resource.AuthorizableResource;
 
 public class UserStatusPolicy implements Policy {
     @Override
-    public boolean evaluate(User user, AuthorizableResource resource, Permission permission) {
+    public boolean evaluate(User user, AuthorizableResource resource) {
         return false;
     }
 }

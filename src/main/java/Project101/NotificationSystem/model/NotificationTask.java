@@ -1,5 +1,8 @@
 package Project101.NotificationSystem.model;
 
+import lombok.Getter;
+
+@Getter
 public class NotificationTask {
     private final Message message;
     private final ChannelType channelType;
@@ -9,11 +12,4 @@ public class NotificationTask {
         this.channelType = channelType;
     }
 
-    public Message getMessage() {
-        return message;
-    }
-
-    public ChannelType getChannelType() {
-        return channelType;
-    }
 }

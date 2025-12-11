@@ -1,11 +1,15 @@
 package Project101.NotificationSystem.model;
 
+import lombok.Getter;
+
 /**
  * Represents an immutable message to be sent.
  * Use the nested Builder class to construct an instance.
  */
+@Getter
 public final class Message {
 
+    // Only getters, making the class immutable
     private final String recipient;
     private final String content;
     private final String subject; // Optional, for email
@@ -15,19 +19,6 @@ public final class Message {
         this.recipient = builder.recipient;
         this.content = builder.content;
         this.subject = builder.subject;
-    }
-
-    // Only getters, making the class immutable
-    public String getRecipient() {
-        return recipient;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public String getSubject() {
-        return subject;
     }
 
     @Override

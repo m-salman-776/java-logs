@@ -5,5 +5,5 @@ import Project101.Auth.model.User;
 import Project101.Auth.resource.AuthorizableResource;
 
 public interface Policy {
-    boolean evaluate(User user, AuthorizableResource resource, Permission permission);
+    boolean evaluate(User user, AuthorizableResource resource);
 }

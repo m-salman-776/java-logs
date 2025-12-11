@@ -1,5 +1,7 @@
 ## AuthV2: Database Schema & Sample Data
 
+![Architecture Diagram](Assets/auth.png)
+
 This section provides the database schema and sample data to illustrate how the authorization model is physically stored.
 
 ### `roles`

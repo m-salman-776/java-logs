@@ -70,10 +70,6 @@ public class AuthorizationService {
     }
 
     private boolean hasPermission(User user, AuthorizableResource resource, Permission permission, Set<PermissionGrant> grants, Scope scope) {
-        // Filter grants to find one that matches the desired permission and scope.
-//        boolean rbacPassed = grants.stream()
-//                .anyMatch(grant -> grant.getPermission().equals(permission) && grant.getScope().equals(scope));
-//
         boolean rbacPassed = false;
         for (PermissionGrant grant : grants) {
             if (grant.getPermission().equals(permission) && grant.getScope().equals(scope)) {
@@ -89,7 +85,7 @@ public class AuthorizationService {
         // If RBAC passes for this scope, we must also check the associated ABAC policies.
         List<Policy> policies = authRepository.findPoliciesForPermission(permission);
         for (Policy policy : policies) {
-            if (!policy.evaluate(user, resource, permission)) {
+            if (!policy.evaluate(user, resource)) {
                 System.out.println("  - ABAC Policy Failed: " + policy.getClass().getSimpleName() + " for scope " + scope.getType() + ":" + scope.getValue());
                 return false;
             }
