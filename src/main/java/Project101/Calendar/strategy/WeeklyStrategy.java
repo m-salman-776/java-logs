@@ -11,17 +11,16 @@ import java.util.List;
 
 public class WeeklyStrategy implements RecurrenceStrategy {
     @Override
-    public List<EventInstance> getOccurrences(Event event, LocalDateTime start, LocalDateTime end) {
+    public List<EventInstance> getOccurrences(Event event, LocalDateTime windowStart, LocalDateTime windowEnd) {
         List<EventInstance> eventInstances = new ArrayList<>();
         ZonedDateTime zonedStart = event.getStartTimeUtc().atZone(event.getZoneId());
 
-        long monthToSkip = ChronoUnit.MONTHS.between(zonedStart,start.atZone(event.getZoneId()));
+        long weeksToSkip = ChronoUnit.WEEKS.between(zonedStart,windowStart.atZone(event.getZoneId()));
 
-        if (monthToSkip < 0) monthToSkip = 0; // consider view point
-        zonedStart = zonedStart.plusMonths(monthToSkip);
+        if (weeksToSkip < 0) weeksToSkip = 0; // consider view point
+        zonedStart = zonedStart.plusMonths(weeksToSkip);
 
-
-        while (zonedStart.isBefore(ZonedDateTime.of(end,event.getZoneId()))) {
+        while (zonedStart.isBefore(windowEnd.atZone(event.getZoneId()))) {
             zonedStart = zonedStart.plusWeeks(1);
             eventInstances.add(new EventInstance(event.getId(),
                     event.getTitle(),zonedStart.toLocalDateTime(),zonedStart.plus(event.getDuration()).toLocalDateTime()));
