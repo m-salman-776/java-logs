@@ -1,17 +1,16 @@
 package Project101.ElevatorSystem;
 
+import Project101.ElevatorSystem.DataType.Direction;
 
-import Project101.ElevatorSystem.DataType.Location;
-import Project101.ElevatorSystem.DataType.Status;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import java.time.Instant;
 
-@AllArgsConstructor
-@Getter
-@Setter
 public class Request {
-    Status direction;
-    Location location;
-    int floor;
+    public int floor;
+    public Direction direction;
+    long timestamp;
+    public Request(int floor, Direction direction){
+        this.floor = floor;
+        this.direction = direction;
+        this.timestamp = Instant.now().toEpochMilli();
+    }
 }

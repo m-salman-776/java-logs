@@ -1,0 +1,14 @@
+PROJ-001,Payment Gateway Integration,null,0
+EPIC-001,Backend Implementation,PROJ-001,0
+EPIC-002,Frontend UI Design,PROJ-001,0
+STORY-101,Design API Endpoints,EPIC-001,0
+TASK-001,Draft Swagger Spec,STORY-101,4
+TASK-002,Review Spec with Team,STORY-101,2
+STORY-102,Implement Stripe API,EPIC-001,0
+TASK-003,Core Payment Service,STORY-102,8
+TASK-004,Unit Tests for Payment,STORY-102,4
+BUG-001,Fix Timeout Issue,STORY-102,3
+STORY-201,Checkout Page Layout,EPIC-002,0
+TASK-005,Create HTML Structure,STORY-201,3
+TASK-006,Apply CSS Styles,STORY-201,5
+BUG-002,Fix Button Alignment,STORY-201,1

@@ -1,4 +1,4 @@
-package Project101.ElevatorSystem.V2;
+package Project101.ElevatorSystem.DataType;
 
 public enum ElevatorStatus {
     MOVING_UP,

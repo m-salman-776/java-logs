@@ -1,17 +1,21 @@
-package Project101.ElevatorSystem.V2;
+package Project101.ElevatorSystem.Dispatcher;
+
+import Project101.ElevatorSystem.DataType.Direction;
+import Project101.ElevatorSystem.DataType.ElevatorStatus;
+import Project101.ElevatorSystem.ElevatorController;
+import Project101.ElevatorSystem.Request;
 
 import java.util.List;
-import java.util.Map;
 
-public class SmartDispatcher implements Dispatcher{
+public class SmartDispatcher implements Dispatcher {
     @Override
     public ElevatorController findBestElevator(List<ElevatorController> controllers, Request request) {
         ElevatorController bestElevator = null;
-        int max_distance = 1000000000;
+        int max_cost = 1000000000;
         for (ElevatorController controller:controllers){
-            int distance = calculateCost(controller,request);
-            if (distance < max_distance){
-                max_distance = distance;
+            int cost = calculateCost(controller,request);
+            if (cost < max_cost){
+                max_cost = cost;
                 bestElevator = controller;
             }
         }
