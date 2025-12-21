@@ -29,6 +29,7 @@ class Driver {
         }
     }
 
+
     public static void main(String []args){
         ans = new ArrayList<>();
 //        Task parent = new Task("p1",0,"Project");
@@ -42,6 +43,17 @@ class Driver {
 //        for (String task : ans){
 //            System.out.println(task);
 //        }
+        int [] nums = new int[]{1,3,4,2,2};
+        for (int i = 0; i < nums.length;) {
+            int idx = nums[i] - 1;
+            if (nums[i] != nums[idx]) {
+                int t = nums[i];
+                nums[i] = nums[idx];
+                nums[idx] = t;
+            } else {
+                i += 1;
+            }
+        }
         System.out.println("done");
     }
 }
