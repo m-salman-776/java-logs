@@ -1,53 +1,55 @@
-import java.io.*;
+package Project103;
+//import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
-public class Driver {
+public class CompanyQuery1 {
+    static int up[][];
+    static int lca(int a, int b){
+        if (a == b) return a;
 
-    static final int LOG = 30; // since 2^30 > 1e9
-
-    public static void main(String[] args) throws Exception {
+        return b;
+    }
+    public static void main(String[]args) throws Exception{
+        int LOG = 18;
+        String input = "/Users/salman/Downloads/code/java-logs/src/main/java/input.txt";
         InputStream inputStream = System.in;
-        String filePath = "/Users/salman/Downloads/code/java-logs/src/main/java/input.txt";
-        inputStream = new FileInputStream(filePath);
+//        inputStream = new FileInputStream(input);
         FastScanner fs = new FastScanner(inputStream);
-        StringBuilder out = new StringBuilder();
-
+        StringBuilder sb = new StringBuilder();
         int n = fs.nextInt();
         int q = fs.nextInt();
-
-        int[][] up = new int[n + 1][LOG];
-
-        for (int i = 1; i <= n; i++) {
+        up = new int[n + 1][LOG];
+        up[1][0] = 0;
+        for (int i=2; i<= n ; i++){
             up[i][0] = fs.nextInt();
         }
-
-        // Build binary lifting table
-        for (int j = 1; j < LOG; j++) {
-            for (int i = 1; i <= n; i++) {
-                up[i][j] = up[ up[i][j - 1] ][j - 1];
+        for (int j=1; j < LOG; j++){
+            for (int i=2 ; i <= n; i++){
+                up[i][j] = up[up[i][j-1]][j-1];
             }
         }
-
-        // Process queries
-        while (q-- > 0) {
+        while (q -- > 0){
             int x = fs.nextInt();
             int k = fs.nextInt();
-
             int j = 0;
-            while (k > 0) {
-                if ((k & 1) == 1) {
+            while (k > 0){
+                if ((k & 1) == 1){
                     x = up[x][j];
                 }
                 k >>= 1;
                 j++;
             }
-
-            out.append(x).append('\n');
+            if (x == 0){
+                sb.append("-1");
+            }else{
+                sb.append(x);
+            }
+            sb.append("\n");
         }
+        System.out.println(sb.toString());
 
-        System.out.print(out.toString());
     }
-
-    // Fast I/O (critical for CSES)
     static class FastScanner {
         private final byte[] buffer = new byte[1 << 16];
         private int ptr = 0, len = 0;
