@@ -7,40 +7,50 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 public class Event {
-    String id;
+    long id;
     String title;
     String description;
-    String organizerId;
-
+    long organizerId;
     LocalDateTime startTimeUtc;
     Duration duration;
-
     RecurrenceRule recurrenceRule;
-
-    List<String> attendee;
-
+    Set<Long> attendee;
     ZoneId zoneId;
-
-    // Constructor, getters...
-    public Event(String title, String description, String organizerId, LocalDateTime startTimeUtc, Duration duration) {
+    public Event(long id,long organizerId,String title, String description, LocalDateTime startTimeUtc, Duration duration) {
+        this.id = id;
         this.title = title;
         this.description = description;
         this.organizerId = organizerId;
         this.startTimeUtc = startTimeUtc;
         this.duration = duration;
-        this.attendee = new ArrayList<>();
+        this.attendee = new HashSet<>();
     }
-    public Event(String title, String description, String organizerId, LocalDateTime startTimeUtc, Duration duration,RecurrenceRule recurrenceRule) {
+    public Event(long id,long organizerId,String title, String description, LocalDateTime startTimeUtc, Duration duration,RecurrenceRule recurrenceRule) {
+        this.id = id;
         this.title = title;
         this.description = description;
         this.organizerId = organizerId;
         this.startTimeUtc = startTimeUtc;
         this.duration = duration;
         this.recurrenceRule=recurrenceRule;
-
+        this.attendee = Set.of(organizerId);
+    }
+    public boolean addAttendee(List<Long> attendee){
+        this.attendee.addAll(attendee);
+        return true;
+    }
+    public boolean removeAttendee(long attendeeId){
+        this.attendee.remove(attendeeId);
+        return true;
+    }
+    public boolean updateRecurrenceRule(RecurrenceRule recurrenceRule){
+        this.recurrenceRule = recurrenceRule;
+        return true;
     }
 }

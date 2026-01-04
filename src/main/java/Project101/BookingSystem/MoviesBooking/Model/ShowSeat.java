@@ -5,6 +5,8 @@ import Project101.MovieTicket.Booking;
 import Project101.MovieTicket.CinemaHallSeat;
 import lombok.Getter;
 
+import java.time.Instant;
+
 @Getter
 public class ShowSeat extends CinemaHallSeat {
     double price;

@@ -7,7 +7,7 @@ import Project101.NotificationSystem.channel.SmsChannel;
 import Project101.NotificationSystem.model.ChannelType;
 
 public class NotificationFactory {
-    public static NotificationChannel createChannel(ChannelType channelType) {
+    public static NotificationChannel getChanel(ChannelType channelType) {
         switch (channelType) {
             case EMAIL:
                 return new EmailChannel();

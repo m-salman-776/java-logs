@@ -6,7 +6,7 @@ import Project101.Auth.resource.AuthorizableResource;
 
 public class OwnershipPolicy implements Policy {
     @Override
-    public boolean evaluate(User user, AuthorizableResource resource, Permission permission) {
+    public boolean evaluate(User user, AuthorizableResource resource) {
         System.out.println("  - Evaluating OwnershipPolicy...");
         boolean isOwner = user.getId().equals(resource.getOwnerId());
         if (!isOwner) {

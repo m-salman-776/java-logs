@@ -33,6 +33,6 @@ public class GetDeleteRandom {
     }
 //    public int getRandom() {
 //        int size = location.size();
-////        int idx = Math.random();
+//        int idx = Math.random();
 //    }
 }

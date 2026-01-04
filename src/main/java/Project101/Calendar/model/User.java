@@ -1,23 +1,18 @@
 package Project101.Calendar.model;
 
+import lombok.Getter;
+
+import java.util.HashSet;
+import java.util.Set;
+
+@Getter
 public class User {
-    String id;
+    long id;
     String name;
-
-    public User(String userId){
-        this.id = userId;
-    }
-
-    public User(String id, String name) {
+    Set<Long> eventSet;
+    public User(long id,String name){
         this.id = id;
         this.name = name;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
+        this.eventSet = new HashSet<>();
     }
 }

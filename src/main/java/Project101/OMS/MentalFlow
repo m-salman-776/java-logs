@@ -1,0 +1,150 @@
+1. The High-Level Connection Diagram 🔗
+Think of the Saga Orchestrator as a Traffic Cop standing in the middle of an intersection.
+
+Order Service: The entry point. It creates the order and signals the cop.
+
+Orchestrator (The Cop): Sees the signal, points to Inventory, and says "Go!".
+
+Inventory: Does the work, reports back "Done!".
+
+Orchestrator: Sees "Done!", points to Payment, and says "Go!".
+
+This is the most critical question in Microservices design. You have the "Brain" (OrderSagaOrchestrator), but you need to see the "Nervous System" that connects it to the limbs (Inventory, Payment).
+
+In a production system, these components are Not connected by direct function calls. They are connected via Events (Kafka/RabbitMQ) and Commands (REST/gRPC).
+
+Here is the End-to-End Flow of placing an order, showing exactly how the data jumps from component to component.
+
+1. The High-Level Connection Diagram 🔗
+Think of the Saga Orchestrator as a Traffic Cop standing in the middle of an intersection.
+
+Order Service: The entry point. It creates the order and signals the cop.
+
+Orchestrator (The Cop): Sees the signal, points to Inventory, and says "Go!".
+
+Inventory: Does the work, reports back "Done!".
+
+Orchestrator: Sees "Done!", points to Payment, and says "Go!".
+
+2. Step-by-Step Code Flow 👣
+Let's trace a request for Order #101.
+
+Step 1: The Trigger (Order Service)
+User Action: POST /orders/place Component: OrderService (The Initiator)
+This service does two things:
+ Saves the Order in the DB (Status: CREATED).
+ Kicks off the Saga by publishing an event.
+
+
+@Service
+public class OrderService {
+
+    @Transactional
+    public Order placeOrder(OrderRequest req) {
+        // 1. Save to Database (ACID)
+        Order order = new Order(req);
+        order.setStatus(OrderStatus.CREATED);
+        orderRepository.save(order);
+
+        // 2. CONNECT TO SAGA: Publish Event to Kafka
+        // Topic: "order-events"
+        kafkaTemplate.send("order-events", new OrderCreatedEvent(order.getId()));
+
+        return order;
+    }
+}
+
+
+Step 2: The Brain Wakes Up (Orchestrator)
+Component: OrderSagaOrchestrator Trigger: Kafka Topic order-events
+The Orchestrator hears "Order Created" and decides the next step: Inventory.
+
+Step 3: The First Worker (Inventory Service)
+Component: InventoryService Trigger: REST API POST /inventory/reserve (called by Orchestrator)
+It does the work and replies (either via HTTP response or async event). Let's use Async Event for true decoupling.
+
+
+@Component
+public class OrderSagaOrchestrator {
+
+    // Connected to: Inventory Service (via Feign/REST or Kafka)
+    private final InventoryClient inventoryClient;
+
+    @KafkaListener(topics = "order-events")
+    public void onOrderEvent(OrderEvent event) {
+        if (event.getType() == OrderCreated) {
+            // LOGIC: New Order? Go reserve stock.
+
+            // Connection: Sending a COMMAND to Inventory Service
+            inventoryClient.reserveStock(new ReserveStockCommand(event.getOrderId()));
+        }
+    }
+    @KafkaListener(topics = "inventory-events")
+    public void onInventoryEvent(InventoryEvent event) {
+        if (event.isSuccess()) {
+            // Logic: Inventory is safe. Now take the money.
+
+            // Connection: Sending a COMMAND to Payment Service
+            paymentClient.processPayment(new PaymentCommand(event.getOrderId()));
+
+        } else {
+            // Logic: Out of stock. Kill the order.
+            orderService.updateStatus(event.getOrderId(), FAILED);
+        }
+    }
+    @KafkaListener(topics = "payment-events")
+    public void onPaymentEvent(PaymentEvent event) {
+        if (event.isSuccess()) {
+            // SUCCESS!
+            // 1. Update Order Status in DB
+            orderService.updateStatus(event.getOrderId(), PAID);
+
+            // 2. Trigger Shipping (Next Saga Step)
+            shippingClient.createLabel(event.getOrderId());
+
+        } else {
+            // ROLLBACK SAGA
+            // Payment failed, but Inventory is still held!
+            // We must undo Step 3.
+            inventoryClient.releaseStock(event.getOrderId());
+
+            orderService.updateStatus(event.getOrderId(), CANCELLED);
+        }
+    }
+}
+
+@RestController
+public class InventoryController {
+    @PostMapping("/reserve")
+    public void reserveStock(@RequestBody ReserveCommand cmd) {
+        try {
+            // 1. DB Logic (The "Product_Inventory" table we designed)
+            boolean success = inventoryManager.reserve(cmd.getItems());
+
+            if (success) {
+                // 2. CONNECT BACK: Publish Success Event
+                kafkaTemplate.send("inventory-events", new InventoryReservedEvent(cmd.getOrderId()));
+            } else {
+                kafkaTemplate.send("inventory-events", new InventoryFailedEvent(cmd.getOrderId()));
+            }
+        } catch (Exception e) { ... }
+    }
+
+}
+
+@RestController
+public class PaymentController {
+
+    @PostMapping("/charge")
+    public void charge(@RequestBody PaymentCommand cmd) {
+        // 1. Talk to Stripe/PayPal
+        boolean paid = gateway.charge(cmd.getAmount());
+
+        // 2. CONNECT BACK: Publish Result
+        if (paid) {
+            kafkaTemplate.send("payment-events", new PaymentSuccessEvent(cmd.getOrderId()));
+        } else {
+            kafkaTemplate.send("payment-events", new PaymentFailedEvent(cmd.getOrderId()));
+        }
+    }
+}

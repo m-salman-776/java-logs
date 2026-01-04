@@ -14,7 +14,7 @@ public class NotificationDispatcher implements Runnable {
         while (!Thread.currentThread().isInterrupted()) {
             try {
                 NotificationTask task = queue.take();
-                NotificationChannel channel = NotificationFactory.createChannel(task.getChannelType());
+                NotificationChannel channel = NotificationFactory.getChanel(task.getChannelType());
                 channel.send(task.getMessage());
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
