@@ -38,7 +38,7 @@ public class SmartDispatcher implements Dispatcher {
         if (movingToward && sameDirection){
             return distance + 500;
         }
-        if (movingToward & !sameDirection){
+        if (movingToward && !sameDirection){
             return distance + 1000;
         }
         return distance + 10010;

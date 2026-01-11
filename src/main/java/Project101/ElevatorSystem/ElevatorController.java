@@ -15,7 +15,7 @@ public class ElevatorController implements Runnable {
     private void upRequests(){
         while (!this.elevator.upRequestsMinHeap.isEmpty() ){
             int nextFloor;
-            synchronized (this.elevator.upRequestsMinHeap){
+            synchronized (this.elevator){
                 nextFloor = this.elevator.upRequestsMinHeap.poll();
             }
             this.elevator.move(nextFloor,Direction.UP);
@@ -30,7 +30,7 @@ public class ElevatorController implements Runnable {
         while (!this.elevator.downRequestsMaxHeap.isEmpty()){
 
             int nextFloor;
-            synchronized (this.elevator.downRequestsMaxHeap){
+            synchronized (this.elevator){
                 nextFloor = this.elevator.downRequestsMaxHeap.poll();
             }
             this.elevator.move(nextFloor,Direction.DOWN);
@@ -45,6 +45,17 @@ public class ElevatorController implements Runnable {
     @Override
     public void run() {
         while (true){
+            synchronized (this.elevator) {
+                while (this.elevator.upRequestsMinHeap.isEmpty() && this.elevator.downRequestsMaxHeap.isEmpty()) {
+                    try {
+                        // Wait until the elevator notifies us (when a request is added)
+                        this.elevator.wait();
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                        return;
+                    }
+                }
+            }
             if (this.elevator.elevatorStatus == ElevatorStatus.MOVING_UP || this.elevator.elevatorStatus == ElevatorStatus.IDLE){
                 upRequests();
                 downRequests();

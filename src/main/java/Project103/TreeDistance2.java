@@ -1,10 +1,8 @@
-//package Project103;
-
-import java.io.FileDescriptor;
+package Project103;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
+import java.util.*;
 
 public class TreeDistance2 {
     static int []head,next,to;
@@ -25,6 +23,32 @@ public class TreeDistance2 {
             ans[root] += ans[child] + size[child];
         }
     }
+    static void bfs_1(int root,int n){
+        int []parent = new int[n+1];
+        List<Integer> order = new ArrayList<>();
+        Queue<Integer> q = new LinkedList<>();
+        q.add(root);
+        order.add(root);
+        boolean []vis = new boolean[n+1];
+        while (!q.isEmpty()){
+            int rOot = q.poll();
+            vis[rOot] = true;
+            for (int e = head[rOot];e != -1 ; e = next[e]){
+                int child = to[e];
+                if (rOot == child || vis[child]) continue;
+                parent[child] = rOot;
+                q.add(child);
+                order.add(child);
+            }
+        }
+        for (int i=order.size()-1; i>= 0 ; i--){
+            int v = order.get(i); // child
+            int u = parent[v]; // parent
+            size[u] += size[v];
+            ans[u] += ans[v] + size[v];
+        }
+//        System.out.println("done");
+    }
     static void dfs2(int root,int parent){
         for (int e = head[root];e != -1;e = next[e]){
             int child = to[e];
@@ -44,14 +68,19 @@ public class TreeDistance2 {
         to = new int[2*n + 1];
         ans = new long[n+1];
         size = new long[n+1];
+        Arrays.fill(size,1);
+        size[0] = 0;
         for (int i=1; i<n ; i++){
             int a = fs.nextInt();
             int b = fs.nextInt();
             addEdge(a,b);
             addEdge(b,a);
         }
-        dfs1(1,1);
+//        dfs1(1,1);
+        bfs_1(1,n);
         dfs2(1,1);
+
+//        bfs_2(1,n);
         StringBuilder sb = new StringBuilder();
         for (int i=1;i <= n; i++){
             sb.append(ans[i]).append(" ");

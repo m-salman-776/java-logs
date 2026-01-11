@@ -29,6 +29,7 @@ public class Elevator {
         }else{
             downRequestsMaxHeap.add(request.floor);
         }
+        notifyAll();
     }
 
     public void openDoor(){
