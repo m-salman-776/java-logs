@@ -1,6 +1,8 @@
-package Project101.OMS;
+package Project101.OMS.OrderStates;
 
-public class BaseOrderState implements OrderState{
+import Project101.OMS.OrderContext;
+
+public class BaseOrderState implements OrderState {
     @Override
     public boolean reserveInventory(OrderContext context) {
         throw new IllegalStateException("Action 'Reserve Inventory' not allowed in " + this.getClass().getSimpleName());

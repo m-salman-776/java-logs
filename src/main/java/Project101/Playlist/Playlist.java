@@ -5,6 +5,7 @@ import Models.User;
 import lombok.Getter;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Getter
@@ -12,14 +13,15 @@ public class Playlist {
     String id;
     String name;
     String description;
-    User owner;
+    String user;
     boolean isPublic;
-    List<Playable> items;
-    public Playlist(String name,User user,String description) {
+    private final List<Playable> items; // Removed @Getter from class level for this field effectively
+
+    public Playlist(String name,String user,String description) {
         this.name = name;
         this.description = description;
         this.isPublic = false;
-        this.owner = user;
+        this.user = user;
         this.items = new ArrayList<>();
     }
     public void addItem(Playable item){
@@ -27,5 +29,10 @@ public class Playlist {
     }
     public void removeItem(Playable item){
         items.remove(item);
+    }
+    
+    // Return unmodifiable list to protect internal state
+    public List<Playable> getItems() {
+        return Collections.unmodifiableList(items);
     }
 }

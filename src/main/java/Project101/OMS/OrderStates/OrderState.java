@@ -1,4 +1,6 @@
-package Project101.OMS;
+package Project101.OMS.OrderStates;
+
+import Project101.OMS.OrderContext;
 
 public interface OrderState {
     boolean reserveInventory(OrderContext context);

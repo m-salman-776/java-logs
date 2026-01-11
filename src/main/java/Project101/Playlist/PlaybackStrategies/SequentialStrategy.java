@@ -1,4 +1,4 @@
-package Project101.Playlist.Playback;
+package Project101.Playlist.PlaybackStrategies;
 
 public class SequentialStrategy implements PlaybackStrategy{
     @Override

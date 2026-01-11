@@ -1,6 +1,5 @@
 package Project101.OMS.OrderStates;
 
-import Project101.OMS.BaseOrderState;
 import Project101.OMS.OrderContext;
 
 public class CreatedState extends BaseOrderState {

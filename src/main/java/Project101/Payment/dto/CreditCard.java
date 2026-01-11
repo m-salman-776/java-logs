@@ -1,11 +1,12 @@
 package Project101.Payment.dto;
 
+import Project101.Payment.PaymentStrategy.PaymentDetails;
 import lombok.Getter;
 
 import java.time.YearMonth;
 
 @Getter
-public class CreditCard {
+public class CreditCard implements PaymentDetails {
     // Getters for all fields
     private final String cardNumber;
     private final String cardHolderName;
