@@ -7,23 +7,24 @@ public class Main {
         Product product3 = new Product(3,"p3");
 
 
-
         InventoryService inventoryService = new InventoryService();
 
         inventoryService.addProduct(product1,3);
         inventoryService.addProduct(product2,4);
         inventoryService.addProduct(product3,4);
 
-        System.out.println(inventoryService.getAvailableQuantity(1));
-        inventoryService.reserveInventory(1,1,1);
-        System.out.println(inventoryService.getAvailableQuantity(1));
+        inventoryService.getAvailableQuantity(1);
+        Order order1 = inventoryService.createOrder(1,1,1);
+        inventoryService.getAvailableQuantity(1);
 
-        inventoryService.completeOrder(1,1);
-        Thread.sleep(5000);
+        inventoryService.completeOrder(1);
+        inventoryService.releaseInventory(order1.id);
+        inventoryService.getAvailableQuantity(1);
 
-        System.out.println(inventoryService.getAvailableQuantity(1));
 
-        System.out.println(inventoryService.getAvailableQuantity(1));
-        System.out.println("DEbug");
+        Thread.sleep(5300);
+        inventoryService.getAvailableQuantity(1);
+
+        System.out.println("Debug");
     }
 }
