@@ -1,33 +1,34 @@
 package Project101.RateLimiter.Implementations;
 
-import Project101.RateLimiter.Interface.RateLimiter;
-import Project101.RateLimiter.Interface.RateLimiterStorage;
 
-import java.util.*;
+import Project101.RateLimiter.Policy;
+import Project101.RateLimiter.RateLimiterStorage;
+import com.sun.source.tree.Tree;
 
+import java.util.HashMap;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
-public class SlidingWindow implements RateLimiter {
-
-//    RateLimiterStorage storage;
-
-    Map<String,TreeSet<Long>> stringTreeSetMap ;
-
-    public SlidingWindow(RateLimiterStorage storage){
-//        this.storage = storage;
-        stringTreeSetMap = new HashMap<>();
+public class SlidingWindow implements RateLimitAlgorithm {
+    RateLimiterStorage store;
+    HashMap<String, SortedSet<Long>> storage;
+    public SlidingWindow(){
+        this.storage = new HashMap<>();
     }
     @Override
-    public boolean allowRequest(String clientId, int rateLimit, int timeWindowInSeconds) {
-//        stringTreeSetMap.get("sd").lower()
+    public boolean isAllowed(String key, Policy policy) {
+        long now = System.currentTimeMillis();
+        long windowSizeMs = policy.getUnit().toMillis(1);
+        long windowStart = now - windowSizeMs;
 
-        long currentTime = System.currentTimeMillis() / 1000;
-        TreeSet<Long> count = stringTreeSetMap.getOrDefault(clientId,new TreeSet<>());
-        count = new TreeSet<>( count.tailSet(currentTime,true));
-        stringTreeSetMap.put(clientId,count);
-        stringTreeSetMap.get(clientId).add(currentTime);
-        if (stringTreeSetMap.get(clientId).size() > rateLimit){
+        this.storage.computeIfAbsent(key,k-> new TreeSet<>());
+
+        SortedSet<Long> validTimeStamps = this.storage.get(key).tailSet(windowStart);
+        this.storage.put(key,validTimeStamps);
+        if (validTimeStamps.size() >= policy.getLimit()) {
             return false;
         }
-        return false;
+        this.storage.get(key).add(now);
+        return true;
     }
 }

@@ -1,13 +1,37 @@
 package Project101.RateLimiter;
+import Project101.RateLimiter.Implementations.RateLimitAlgorithm;
+import Project101.RateLimiter.Implementations.RateLimiterStrategy;
 
-import Project101.RateLimiter.Interface.RateLimiter;
+import java.util.HashMap;
+import java.util.List;
+import java.util.TreeSet;
 
 public class RateLimitService {
-    private RateLimiter rateLimiter;
-    public RateLimitService(RateLimiter rateLimiter){
-        this.rateLimiter = rateLimiter;
+    private final RateLimitConfig config;
+//    private RateLimiterStorage rateLimiterStorage;
+    HashMap<String, TreeSet<Long>> rateLimiterStorage;
+    public RateLimitService(){
+        this.config = new RateLimitConfig();
     }
-    public boolean allowed(String clientId, int rateLimit, int timeWindowInSeconds) {
-        return rateLimiter.allowRequest(clientId,rateLimit,timeWindowInSeconds);
+    public void addConfig(String domain,String key,String value,Policy policy){
+        this.config.addDomainConfig(domain,key,value,policy);
+    }
+    public boolean isAllowed(String domain, List<Request> requests){
+        DomainConfig domainConfig = this.config.getDomainConfig(domain);
+        if (domainConfig == null)  {
+            return true;
+        }
+        for (Request request : requests){
+            String key = String.format("%s:%s",request.getKey(),request.getValue());
+            Rule rule = domainConfig.getDescriptor(key);
+            if (rule == null) continue;
+            Policy policy = rule.getPolicy();
+            if (policy == null) continue;
+            RateLimitAlgorithm algorithm = RateLimiterStrategy.getRateLimiter(policy.getAlgorithm());
+            if (!algorithm.isAllowed(key,policy)) {
+                return false;
+            }
+        }
+        return true;
     }
 }
