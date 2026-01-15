@@ -34,17 +34,6 @@ public class InventoryService {
         // this is excessive locking. ConcurrentHashMap is already thread-safe. Synchronizing the entire method locks the entire service just to add a product, creating a bottleneck
         this.inventoryMap.computeIfAbsent(product.id,k -> new ProductInventory(product,quantity));
     }
-
-    public void releaseInventory(int orderId){
-        // Atomically remove the order. If it returns null, another thread (completeOrder) already handled it.
-        Order order = this.reservedOrder.remove(orderId);
-        if (order == null) {
-            System.out.printf("Order : %s Not be available for release (already completed or released)\n",orderId);
-            return;
-        }
-        // Release the reserved quantity. We pass negative because ProductInventory adds the value.
-        this.inventoryMap.get(order.productId).releaseProduct(order.quantity);
-    }
     
     private boolean reserveInventory(int productId, int quantity){
         ProductInventory productInventory = this.inventoryMap.get(productId);
@@ -78,5 +67,15 @@ public class InventoryService {
         this.inventoryMap.get(order.productId).releaseProduct(-order.quantity);
 
         System.out.printf("Order : %s completed successfully\n",orderId);
+    }
+    public void releaseInventory(int orderId){
+        // Atomically remove the order. If it returns null, another thread (completeOrder) already handled it.
+        Order order = this.reservedOrder.remove(orderId);
+        if (order == null) {
+            System.out.printf("Order : %s Not be available for release (already completed or released)\n",orderId);
+            return;
+        }
+        // Release the reserved quantity. We pass negative because ProductInventory adds the value.
+        this.inventoryMap.get(order.productId).releaseProduct(order.quantity);
     }
 }
