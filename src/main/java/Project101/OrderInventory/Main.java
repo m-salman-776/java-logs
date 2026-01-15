@@ -22,9 +22,13 @@ public class Main {
         inventoryService.getAvailableQuantity(1);
 
 
+        inventoryService.createOrder(2,2,2);
+        inventoryService.getAvailableQuantity(2);
+
         Thread.sleep(5300);
         inventoryService.getAvailableQuantity(1);
 
+        inventoryService.getAvailableQuantity(2);
         System.out.println("Debug");
     }
 }
