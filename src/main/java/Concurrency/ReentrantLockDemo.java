@@ -19,7 +19,7 @@ public class ReentrantLockDemo{
     public void produce(int item)throws InterruptedException{
         lock.lock();
         try {
-            while (queue.size() == cap){
+            while (queue.size() == cap){ // to prevent Spurious wake up we need to loop
                 producerRoom.await();
             }
             queue.add(item);

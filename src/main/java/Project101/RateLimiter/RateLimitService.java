@@ -1,17 +1,18 @@
 package Project101.RateLimiter;
 import Project101.RateLimiter.Implementations.RateLimitAlgorithm;
 import Project101.RateLimiter.Implementations.RateLimiterStrategy;
-
-import java.util.HashMap;
+import Project101.RateLimiter.Implementations.SlidingWindow;
 import java.util.List;
-import java.util.TreeSet;
 
 public class RateLimitService {
     private final RateLimitConfig config;
-//    private RateLimiterStorage rateLimiterStorage;
-    HashMap<String, TreeSet<Long>> rateLimiterStorage;
+    RateLimitAlgorithm rateLimiterAlgo ;
     public RateLimitService(){
         this.config = new RateLimitConfig();
+        this.rateLimiterAlgo = new SlidingWindow();
+    }
+    public void setRateLimitAlgorithm(RateLimitAlgorithm rateLimiterAlgo){
+        this.rateLimiterAlgo = rateLimiterAlgo;
     }
     public void addConfig(String domain,String key,String value,Policy policy){
         this.config.addDomainConfig(domain,key,value,policy);
@@ -27,8 +28,8 @@ public class RateLimitService {
             if (rule == null) continue;
             Policy policy = rule.getPolicy();
             if (policy == null) continue;
-            RateLimitAlgorithm algorithm = RateLimiterStrategy.getRateLimiter(policy.getAlgorithm());
-            if (!algorithm.isAllowed(key,policy)) {
+//            RateLimitAlgorithm algorithm = RateLimiterStrategy.getRateLimiter(policy.getAlgorithm());
+            if (!rateLimiterAlgo.isAllowed(key,policy)) {
                 return false;
             }
         }

@@ -1,10 +1,9 @@
 package Project101.OrderInventory;
 
 import org.junit.jupiter.api.Test;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -115,5 +114,63 @@ class InventoryServiceTest {
         int avail = service.getAvailableQuantity(1);
         // It must be either 0 (sold) or 1 (released). Any other value implies corruption.
         assertTrue(avail == 0 || avail == 1, "Available quantity must be 0 or 1, found: " + avail);
+    }
+
+    @Test
+    void testMixedCompletionAndRelease() throws InterruptedException {
+        InventoryService service = new InventoryService();
+        Product p1 = new Product(1, "Tablet");
+        int initialStock = 10;
+        service.addProduct(p1, initialStock);
+
+        int numOrders = 10;
+        ExecutorService executor = Executors.newFixedThreadPool(numOrders);
+        CountDownLatch latch = new CountDownLatch(1);
+        List<Order> orders = new ArrayList<>();
+
+        // 1. Create 10 orders
+        for (int i = 0; i < numOrders; i++) {
+            int userId = i;
+            Order order = service.createOrder(userId, 1, 1);
+            assertNotNull(order);
+            orders.add(order);
+        }
+
+        // 2. Complete 5, Let 5 Timeout
+        for (int i = 0; i < numOrders; i++) {
+            final Order order = orders.get(i);
+            final boolean shouldComplete = (i % 2 == 0); // Even indices complete, Odd timeout
+
+            executor.submit(() -> {
+                try {
+                    latch.await();
+                    if (shouldComplete) {
+                        service.completeOrder(order.id);
+                    } else {
+                        // Do nothing, let auto-release handle it
+                    }
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+            });
+        }
+
+        latch.countDown(); // Start processing
+        
+        // Wait for auto-release timeout (3s + buffer)
+        Thread.sleep(4000);
+        
+        executor.shutdown();
+        executor.awaitTermination(1, TimeUnit.SECONDS);
+
+        // 3. Verification
+        // 5 orders completed -> 5 items sold.
+        // 5 orders released -> 5 items returned.
+        // Final Available = Initial (10) - Sold (5) = 5.
+        
+        assertEquals(5, service.getAvailableQuantity(1), "Final quantity should be 5");
+        
+        // Verify reservedOrder map is empty (all cleaned up)
+        assertTrue(service.reservedOrder.isEmpty(), "Reserved orders map should be empty, found: " + service.reservedOrder.size());
     }
 }
