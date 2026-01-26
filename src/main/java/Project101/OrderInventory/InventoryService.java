@@ -9,14 +9,14 @@ public class InventoryService {
     private final Map<Integer, ProductInventory> inventoryMap = new ConcurrentHashMap<>();
     // userId -> List Reserved products
     private final Map<Integer, Set<ProductReservation>> productReservation = new ConcurrentHashMap<>();
-    private ScheduledThreadPoolExecutor threadPool;
+    private ScheduledThreadPoolExecutor scheduledThreadPoolExecutor;
     private long inventory_release_sec = 3;
     private AtomicInteger orderId = new AtomicInteger(0);
 
     public Map<Integer,Order> reservedOrder = new ConcurrentHashMap<>();
 
     public InventoryService(){
-        threadPool = new ScheduledThreadPoolExecutor(2);
+        scheduledThreadPoolExecutor = new ScheduledThreadPoolExecutor(2);
     }
 
     public int getAvailableQuantity(int productId){
@@ -47,7 +47,7 @@ public class InventoryService {
         if (!isSuccess) return null;
         Order order = new Order(currentOrderId,userId,productId,quantity);
         this.reservedOrder.put(currentOrderId,order);
-        this.threadPool.schedule(() -> releaseInventory(currentOrderId),inventory_release_sec, TimeUnit.SECONDS);
+        this.scheduledThreadPoolExecutor.schedule(() -> releaseInventory(currentOrderId),inventory_release_sec, TimeUnit.SECONDS);
         return order;
     }
     
