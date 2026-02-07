@@ -17,6 +17,7 @@ public class ReservationService {
         this.reservationMap = new ConcurrentHashMap<>();
         this.idGenerator = new AtomicInteger(0);
         this.scheduledThreadPoolExecutor = new ScheduledThreadPoolExecutor(1);
+//        this.scheduledThreadPoolExecutor.schedule(this.inventoryService::cleanupAllInventories,1,TimeUnit.DAYS);
     }
 
     public Reservation createReservation(LocalDate startDate, LocalDate endDate, int roomType, int quantity){

@@ -5,5 +5,6 @@ public class Main {
         InventoryService inventoryService = new InventoryService();
         inventoryService.updateRooms(1,123);
         ReservationService reservationService = new ReservationService(inventoryService);
+        System.out.println("DONE");
     }
 }

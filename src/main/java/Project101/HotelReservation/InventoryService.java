@@ -35,4 +35,7 @@ public class InventoryService {
         }
         return inventoryMap.get(roomType).getAvailableRooms(date);
     }
+    public void cleanupAllInventories() {
+        inventoryMap.values().forEach(RoomInventory::removeExpiredReservations);
+    }
 }

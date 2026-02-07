@@ -50,6 +50,11 @@ public class RoomInventory {
         return totalCapacity - dailyReservations.getOrDefault(date, 0);
     }
 
+    public synchronized void removeExpiredReservations() {
+        LocalDate today = LocalDate.now();
+        dailyReservations.keySet().removeIf(date -> date.isBefore(today));
+    }
+
     @Override
     public String toString() {
         return String.format("RoomType , Total Capacity: %d", totalCapacity);
