@@ -16,6 +16,7 @@ public class TokenBucket implements RateLimitAlgorithm {
     }
     @Override
     public boolean isAllowed(String key, Policy policy) {
+//        Bucket bucket =
         return false;
 //        Bucket bucket = this.bucketMap.putIfAbsent();
     }
@@ -36,9 +37,8 @@ class Bucket {
         refill();
         while (currentToken == 0){
             long elapsedTime = System.currentTimeMillis() - lastRefillTime;
-            long waitTime = refillMs - elapsedTime;
-            if (waitTime > 0) {
-                this.wait(waitTime);
+            if (refillMs > elapsedTime) { // refil ms yet to be reached;
+                this.wait(refillMs-elapsedTime);
             }
             refill();
         }

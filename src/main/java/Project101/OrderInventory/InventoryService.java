@@ -7,11 +7,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class InventoryService {
     // product_id -> inventory
     private final Map<Integer, ProductInventory> inventoryMap = new ConcurrentHashMap<>();
-    // userId -> List Reserved products
-    private final Map<Integer, Set<ProductReservation>> productReservation = new ConcurrentHashMap<>();
-    private ScheduledThreadPoolExecutor scheduledThreadPoolExecutor;
+    private final ScheduledThreadPoolExecutor scheduledThreadPoolExecutor;
     private long inventory_release_sec = 3;
-    private AtomicInteger orderId = new AtomicInteger(0);
+    private final AtomicInteger orderId = new AtomicInteger(0);
 
     public Map<Integer,Order> reservedOrder = new ConcurrentHashMap<>();
 
@@ -43,9 +41,13 @@ public class InventoryService {
 
     public Order createOrder(int userId,int productId, int quantity){
         int currentOrderId = orderId.incrementAndGet();
-        boolean isSuccess = reserveInventory(productId,quantity);
-        if (!isSuccess) return null;
         Order order = new Order(currentOrderId,userId,productId,quantity);
+        boolean isSuccess = reserveInventory(productId,quantity);
+        if (!isSuccess) {
+            order.updateOrderStatus(OrderStatus.INVENTORY_UNAVAILABLE);
+            return order;
+        }
+        order.updateOrderStatus(OrderStatus.INVENTORY_RESERVED);
         this.reservedOrder.put(currentOrderId,order);
         this.scheduledThreadPoolExecutor.schedule(() -> releaseInventory(currentOrderId),inventory_release_sec, TimeUnit.SECONDS);
         return order;
@@ -73,6 +75,7 @@ public class InventoryService {
             System.out.printf("Order : %s Not be available for release (already completed or released)\n",orderId);
             return;
         }
+        order.updateOrderStatus(OrderStatus.FAILED);
         // Release the reserved quantity. We pass negative because ProductInventory adds the value.
         this.inventoryMap.get(order.productId).releaseProduct(order.quantity);
     }

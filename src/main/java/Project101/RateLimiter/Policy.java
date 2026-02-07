@@ -13,5 +13,4 @@ public class Policy {
     String policy_name;
     int limit;
     TimeUnit unit;
-    RateLimiterAlgo algorithm = RateLimiterAlgo.SLIDING_WINDOW;
 }

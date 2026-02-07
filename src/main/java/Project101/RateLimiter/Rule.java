@@ -7,6 +7,6 @@ import lombok.Getter;
 @Getter
 public class Rule {
     String key;   // user , message_type
-    String value; // uAad , marketing
+    String value; // user-01 , marketing
     Policy policy;
 }

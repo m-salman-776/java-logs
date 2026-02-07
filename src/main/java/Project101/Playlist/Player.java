@@ -8,13 +8,14 @@ import Project101.Playlist.PlayerState.StoppedState;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 public class Player {
     private Playlist currentPlaylist;
     private int currentIndex;
     private PlayerState playerState;
     private PlaybackStrategy playbackStrategy;
-    private List<Integer> playedSongList = new ArrayList<>();
+    private List<Playable> playedSongs = new Stack<>();
 
     public Player() {
         this.currentPlaylist = null;
@@ -65,6 +66,7 @@ public class Player {
     private void playCurrentItem() {
         if (currentPlaylist != null && !currentPlaylist.getItems().isEmpty()) {
             Playable item = currentPlaylist.getItems().get(currentIndex);
+            playedSongs.add(item);
             System.out.println("...Rendering media...");
             item.play();
         }
