@@ -3,6 +3,7 @@ package Project101.ExpenseShare;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -57,5 +58,20 @@ public class ExpenseShareTest {
         assertEquals(9,expenseService.showBalanceSheet(2));
         assertEquals(-1,expenseService.showBalanceSheet(3));
         assertEquals(-7,expenseService.showBalanceSheet(4));
+    }
+    @Test
+    void testDebtSimplification(){
+        // User 1 owes User 2 100
+        expenseService.addExpense(2, 100.0, "1 owes 2", SplitType.EXACT, Map.of(1, 100.0));
+        // User 2 owes User 3 100
+        expenseService.addExpense(3, 100.0, "2 owes 3", SplitType.EXACT, Map.of(2, 100.0));
+
+        List<ExpenseTransaction> transactions = expenseService.debtSimplication();
+
+        assertEquals(1, transactions.size());
+        ExpenseTransaction transaction = transactions.get(0);
+        assertEquals(1, transaction.from);
+        assertEquals(3, transaction.to);
+        assertEquals(100.0, transaction.amount);
     }
 }
