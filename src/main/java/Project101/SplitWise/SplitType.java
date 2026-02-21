@@ -1,6 +1,7 @@
-package Project101.Splitwise;
+package Project101.SplitWise;
 
 public enum SplitType {
     EQUAL,
+    EXACT,
     PERCENTAGE
 }
