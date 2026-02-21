@@ -5,9 +5,11 @@ import java.io.FileNotFoundException;
 public class File extends FileSystemNode{
     private byte[] content;
     FileSystemNode fileSystemNode;
+    long setLastModifiedTime;
     File(String name, FileSystemNode fileSystemNode){
         super(name,false);
         this.fileSystemNode = fileSystemNode;
+        this.content = new byte[]{};
     }
     @Override
     public int getSize() {
@@ -27,5 +29,8 @@ public class File extends FileSystemNode{
     @Override
     public FileSystemNode getParent(){
         return this.parent;
+    }
+    void setSetLastModifiedTime(long setLastModifiedTime){
+        this.setLastModifiedTime = setLastModifiedTime;
     }
 }
