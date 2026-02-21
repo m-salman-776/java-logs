@@ -1,6 +1,6 @@
-package Project101.SplitWise;
+package Project101.ExpenseShare;
 
-import Project101.SplitWise.SplitStrategies.StrategyFactory;
+import Project101.ExpenseShare.SplitStrategies.StrategyFactory;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,17 +10,15 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class ExpenseService {
     // expendId -> Expense;
-    Map<Integer,Expense> expenseMap;
+    private final Map<Integer,Expense> expenseMap;
     // expenseId -> List[ExpenseSplit]
-    Map<Integer,List<ExpenseSplit>> expenseSplitMap;
-    AtomicInteger expenseIdGenerator ;
-    AtomicInteger expenseSplitIdGenerator;
+    private final Map<Integer,List<ExpenseSplit>> expenseSplitMap;
+    private final AtomicInteger expenseIdGenerator ;
     
     // BorrowerID -> (LenderID -> Amount)
-    Map<Integer,Map<Integer,Double>> balanceSheet;
+    private final Map<Integer,Map<Integer,Double>> balanceSheet;
     public ExpenseService(){
         expenseIdGenerator = new AtomicInteger(1);
-        expenseSplitIdGenerator = new AtomicInteger(1);
         expenseMap = new ConcurrentHashMap<>();
         expenseSplitMap = new ConcurrentHashMap<>();
         balanceSheet = new ConcurrentHashMap<>();
@@ -81,7 +79,7 @@ public class ExpenseService {
             }
         }
     }
-    public void checkNetBalance(int userId){
+    public double checkNetBalance(int userId){
         double net = 0;
         // + what others owe me
         for (Map.Entry<Integer, Map<Integer, Double>> entry : balanceSheet.entrySet()) {
@@ -94,6 +92,7 @@ public class ExpenseService {
             for (double val : myDebts.values()) net -= val;
         }
         System.out.printf("Net Balance for User %d: %.2f\n", userId, net);
+        return net;
     }
     public void debtSimplification(){
         Map<Integer, Double> netBalance = new HashMap<>();

@@ -1,8 +1,8 @@
-package Project101.SplitWise.SplitStrategies;
+package Project101.ExpenseShare.SplitStrategies;
 
-import Project101.SplitWise.Expense;
-import Project101.SplitWise.ExpenseSplit;
-import Project101.SplitWise.ExpenseType;
+import Project101.ExpenseShare.Expense;
+import Project101.ExpenseShare.ExpenseSplit;
+import Project101.ExpenseShare.ExpenseType;
 
 import java.util.ArrayList;
 import java.util.List;

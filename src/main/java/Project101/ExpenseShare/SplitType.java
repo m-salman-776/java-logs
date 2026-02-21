@@ -1,4 +1,4 @@
-package Project101.SplitWise;
+package Project101.ExpenseShare;
 
 public enum SplitType {
     EQUAL,
