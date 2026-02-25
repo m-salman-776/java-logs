@@ -10,20 +10,20 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class MeetingScheduler {
     Map<Integer,MeetingRoom> meetingRoomMap;
     Map<Integer,Meeting> meetingMap;
-    Map<Integer,Calender> userMap ;
+    Map<Integer,Calender> usersCalender;
     AtomicInteger meetingIdGenerator = new AtomicInteger(0);
-    int meetingRoomId=0;
+    AtomicInteger meetingRoomIdGenerator = new AtomicInteger(0);
     public MeetingScheduler(){
         meetingRoomMap = new ConcurrentHashMap<>();
-        userMap = new ConcurrentHashMap<>();
+        usersCalender = new ConcurrentHashMap<>();
         meetingMap = new ConcurrentHashMap<>();
     }
     public synchronized void addMeetingRoom(String name,int capacity){
-        this.meetingRoomId += 1;
+        int meetingRoomId = meetingRoomIdGenerator.getAndIncrement();
         this.meetingRoomMap.put(meetingRoomId,new MeetingRoom(meetingRoomId,capacity,name));
     }
     public void addUser(int id,String name){
-        this.userMap.put(id,new Calender());
+        this.usersCalender.put(id,new Calender());
     }
     public synchronized void removeMeetingRoom(int id){
         meetingRoomMap.remove(id);
@@ -41,13 +41,13 @@ public class MeetingScheduler {
 
         Meeting meeting = new Meeting(meetingIdGenerator.incrementAndGet(),organiser,roomId,title,start,end);
         for (Integer participant: participants){
-            if (!userMap.containsKey(participant)) {
+            if (!usersCalender.containsKey(participant)) {
                 System.out.printf("User %d not available\n",participant);
                 continue;
             }
-            userMap.get(participant).addMeeting(meeting.id);
+            usersCalender.get(participant).addMeeting(meeting.id);
         }
-        userMap.get(organiser).addMeeting(meeting.id);
+        usersCalender.get(organiser).addMeeting(meeting.id);
         meeting.addParticipants(participants);
         this.meetingMap.put(meeting.id,meeting);
         return meeting;
@@ -65,9 +65,9 @@ public class MeetingScheduler {
             return false;
         }
         for (int participant : meeting.participants.keySet()){
-            userMap.get(participant).removeMeeting(meetingId);
+            usersCalender.get(participant).removeMeeting(meetingId);
         }
-        userMap.get(meeting.organiser).removeMeeting(meetingId);
+        usersCalender.get(meeting.organiser).removeMeeting(meetingId);
 
         meetingRoomMap.get(meeting.meetingRoomId).releaseRoom(meeting.start,meeting.end);
         meetingMap.remove(meetingId);
@@ -77,7 +77,7 @@ public class MeetingScheduler {
         Meeting meeting = meetingMap.get(meetingId);
         meeting.addParticipants(participants);
         for (int participant: participants){
-            userMap.get(participant).addMeeting(meetingId);
+            usersCalender.get(participant).addMeeting(meetingId);
         }
         return true;
     }
@@ -85,7 +85,7 @@ public class MeetingScheduler {
         Meeting meeting = meetingMap.get(meetingId);
         meeting.removeParticipants(participants);
         for (int participant: participants){
-            userMap.get(participant).removeMeeting(meetingId);
+            usersCalender.get(participant).removeMeeting(meetingId);
         }
         return true;
     }
@@ -96,13 +96,13 @@ public class MeetingScheduler {
         }
         meeting.updateParticipationStatus(userId,status);
         if (status == RSVPStatus.REJECTED){
-            userMap.get(userId).removeMeeting(meetingId);
+            usersCalender.get(userId).removeMeeting(meetingId);
         }
     }
     public Map<Integer,RSVPStatus> getParticipationStatus(int meetingId){
         return meetingMap.get(meetingId).participants;
     }
     public Calender viewCalender(int userId){
-        return userMap.get(userId);
+        return usersCalender.get(userId);
     }
 }

@@ -17,14 +17,14 @@ public class WeeklyStrategy implements RecurrenceStrategy {
         ZonedDateTime zonedStart = event.getStartTimeUtc().atZone(event.getZoneId());
 
         long weeksToSkip = ChronoUnit.WEEKS.between(zonedStart,windowStart.atZone(event.getZoneId()));
-        Instant instant = Instant.now();
-        LocalDate d1 = LocalDate.now();
-        LocalDate d2 = LocalDate.now();
-        d1.plusDays(1);
-
-        LocalDate d  = LocalDate.now();
-        LocalDateTime dt = LocalDateTime.now();
-        long a = Duration.between(d1,d2).get(ChronoUnit.HOURS);
+//        Instant instant = Instant.now();
+//        LocalDate d1 = LocalDate.now();
+//        LocalDate d2 = LocalDate.now();
+//        d1 = d1.plusDays(1);
+//
+//        LocalDate d  = LocalDate.now();
+//        LocalDateTime dt = LocalDateTime.now();
+//        long a = Duration.between(d1,d2).get(ChronoUnit.HOURS);
 
 
 

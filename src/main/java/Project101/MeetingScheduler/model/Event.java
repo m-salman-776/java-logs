@@ -47,8 +47,7 @@ public class Event {
         this.attendee.remove(attendeeId);
         return true;
     }
-    public boolean updateRecurrenceRule(RecurrenceRule recurrenceRule){
+    public void updateRecurrenceRule(RecurrenceRule recurrenceRule){
         this.recurrenceRule = recurrenceRule;
-        return true;
     }
 }

@@ -1,22 +1,17 @@
 package Project101.MeetingScheduler.strategy;
 
 import Project101.MeetingScheduler.model.RecurrenceRule;
-// Import other strategies as they are created
 
 public class RecurrenceStrategyFactory {
-    public static RecurrenceStrategy getStrategy(RecurrenceRule.Pattern frequency) {
-
-        switch (frequency) {
+    public static RecurrenceStrategy getStrategy(RecurrenceRule.Pattern pattern) {
+        switch (pattern) {
+            case DAILY:
+                return new DailyRecurrenceStrategy();
             case WEEKLY:
-                return new WeeklyStrategy();
-            // case DAILY:
-            //     return new DailyStrategy();
-            // case MONTHLY:
-            //     return new MonthlyStrategy();
-            // case YEARLY:
-            //     return new YearlyStrategy();
+                return new WeeklyRecurrenceStrategy();
+            // Add cases for MONTHLY, YEARLY as they are implemented
             default:
-                return null;
+                throw new IllegalArgumentException("Unsupported recurrence pattern: " + pattern);
         }
     }
 }

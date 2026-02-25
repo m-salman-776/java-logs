@@ -23,10 +23,12 @@ public class MeetingRoom {
     private synchronized boolean isAvailable(LocalDateTime start,LocalDateTime end){
         Long startEpoc = start.toEpochSecond(ZoneOffset.UTC);
         Long endEpoc = end.toEpochSecond(ZoneOffset.UTC);
+        //largest value that is <= startEpoc
         Map.Entry<Long,Long> prev = bookedSlots.floorEntry(startEpoc);
         if (prev != null && prev.getValue() > startEpoc) {
             return false;
         }
+        //lowest value that is >= startEpoc
         Map.Entry<Long,Long> next = bookedSlots.ceilingEntry(startEpoc);
         if (next != null && endEpoc > next.getKey()){
             return false;
