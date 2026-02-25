@@ -1,10 +1,10 @@
 package Project101.Auth.policy;
-import Project101.Auth.model.User;
+
 import Project101.Auth.resource.AuthorizableResource;
 
 public class ViewPolicy implements Policy {
     @Override
-    public boolean evaluate(User user, AuthorizableResource resource) {
+    public boolean evaluate(int userId, AuthorizableResource resource) {
         System.out.println("Evaluating ViewPolicy...");
 
         String status = resource.getAttribute("status");
@@ -17,7 +17,7 @@ public class ViewPolicy implements Policy {
 
         // If the document is a DRAFT (or any other status), only the owner can view it.
         System.out.println("  - Resource status is DRAFT. Checking ownership...");
-        boolean isOwner = user.getId().equals(resource.getOwnerId());
+        boolean isOwner = String.valueOf(userId).equals(resource.getOwnerId());
         System.out.println("  - Is user the owner? " + isOwner);
         return isOwner;
     }

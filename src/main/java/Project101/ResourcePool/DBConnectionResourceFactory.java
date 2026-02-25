@@ -3,7 +3,7 @@ package Project101.ResourcePool;
 
 import Project101.ResourcePool.Resources.DBConnection;
 
-public class DBConnectionResource implements Resource<DBConnection> {
+public class DBConnectionResourceFactory implements Resource<DBConnection> {
     @Override
     public DBConnection create() throws Exception {
         System.out.println("Create a new Connection");

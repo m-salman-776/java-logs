@@ -6,43 +6,67 @@ import Project101.Auth.policy.Policy;
 import java.util.*;
 
 public class MockAuthorizationRepository implements AuthorizationRepository {
-    private final Map<String, Set<Role>> userRoles = new HashMap<>();
-    private final Set<PermissionGrant> grants = new HashSet<>();
+    // userId : list of Roles
+    private final Map<Integer, Set<Role>> userRoles = new HashMap<>();
+    
+    // RoleId -> (PermissionName -> List<Scope>)
+    private final Map<String, Map<String, List<Scope>>> grants = new HashMap<>();
+    
     private final Map<String, List<Policy>> permissionPolicies = new HashMap<>();
 
-    public void addUserRole(User user, Role role) {
-        userRoles.computeIfAbsent(user.getId(), k -> new HashSet<>()).add(role);
-    }
-
-    public void addGrant(Role role, Permission permission, Scope scope) {
-        grants.add(new PermissionGrant(role, permission, scope));
-    }
-
-    public void addPermissionPolicy(Permission permission, Policy policy) {
-        permissionPolicies.computeIfAbsent(permission.getName(), k -> new ArrayList<>()).add(policy);
-    }
-    public List<Policy> getPermissionPolicy(Permission permission){
-        return permissionPolicies.getOrDefault(permission.getName(),new ArrayList<>());
+    @Override
+    public void addUserRole(int userId, Role role) {
+        userRoles.computeIfAbsent(userId, k -> new HashSet<>()).add(role);
     }
 
     @Override
-    public Set<Role> findRolesForUser(User user) {
-        return userRoles.getOrDefault(user.getId(), Collections.emptySet());
+    public void addGrant(Role role, Permission permission, Scope scope) {
+        grants.computeIfAbsent(role.getId(), k -> new HashMap<>())
+              .computeIfAbsent(permission.getName(), k -> new ArrayList<>())
+              .add(scope);
+    }
+
+    @Override
+    public void removeGrant(Role role, Permission permission, Scope scope) {
+        Map<String, List<Scope>> roleGrants = grants.get(role.getId());
+        if (roleGrants != null) {
+            List<Scope> scopes = roleGrants.get(permission.getName());
+            if (scopes != null) {
+                scopes.remove(scope);
+                if (scopes.isEmpty()) {
+                    roleGrants.remove(permission.getName());
+                }
+            }
+        }
+    }
+
+    @Override
+    public void addPermissionPolicy(Permission permission, Policy policy) {
+        permissionPolicies.computeIfAbsent(permission.getName(), k -> new ArrayList<>()).add(policy);
+    }
+
+    @Override
+    public Set<Role> findRolesForUser(int userId) {
+        return userRoles.getOrDefault(userId, Collections.emptySet());
     }
 
     @Override
     public Set<PermissionGrant> findGrantsForRoles(Set<Role> roles) {
-        Set<PermissionGrant> results = new HashSet<>();
-        Set<String> roleIds = new HashSet<>();
-        for (Role role : roles){
-            roleIds.add(role.getId());
-        }
-        for (PermissionGrant grant : grants) {
-            if (roleIds.contains(grant.getRole().getId())) {
-                results.add(grant);
+        Set<PermissionGrant> result = new HashSet<>();
+        
+        for (Role role : roles) {
+            Map<String, List<Scope>> roleGrants = grants.get(role.getId());
+            if (roleGrants != null) {
+                for (Map.Entry<String, List<Scope>> entry : roleGrants.entrySet()) {
+                    String permissionName = entry.getKey();
+                    List<Scope> scopes = entry.getValue();
+                    for (Scope scope : scopes) {
+                        result.add(new PermissionGrant(role, new Permission(permissionName), scope));
+                    }
+                }
             }
         }
-        return results;
+        return result;
     }
 
     @Override
@@ -50,4 +74,3 @@ public class MockAuthorizationRepository implements AuthorizationRepository {
         return permissionPolicies.getOrDefault(permission.getName(), Collections.emptyList());
     }
 }
-

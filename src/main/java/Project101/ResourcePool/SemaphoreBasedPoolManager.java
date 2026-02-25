@@ -72,7 +72,8 @@ public class SemaphoreBasedPoolManager<T> implements Pool<T>{
         while (!idleResource.isEmpty()){
             T resource = idleResource.poll();
             factory.destroy(resource);
-//            semaphore.release(); can release the permit
+//            semaphore.release(); can release the permit let not release the permit as
+            // other might try to acquire
         }
     }
 }

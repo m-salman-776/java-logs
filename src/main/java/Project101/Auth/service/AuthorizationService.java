@@ -18,50 +18,51 @@ public class AuthorizationService {
         this.resourceRepository = resourceRepository;
     }
 
-    public boolean isAuthorized(User user, AuthorizableResource resource, String permissionName) {
-        System.out.println("\n--- Checking auth for user '" + user.getName() + "' to '" + permissionName + "' on " + resource.getResourceType() + " '" + resource.getResourceId() + "' ---");
+    public boolean isAuthorized(int userId, AuthorizableResource resource, String permissionName) {
+        System.out.println("\n--- Checking auth for user '" + userId + "' to '" + permissionName + "' on " + resource.getResourceType() + " '" + resource.getResourceId() + "' ---");
 
-        // 1. Get all permission grants for the user's roles.
-        Set<Role> userRoles = authRepository.findRolesForUser(user);
+        Set<Role> userRoles = authRepository.findRolesForUser(userId);
         if (userRoles.isEmpty()) {
             System.out.println("Result: DENIED. Reason: User has no roles.");
             return false;
         }
         Set<PermissionGrant> grants = authRepository.findGrantsForRoles(userRoles);
 
-        // 2. Start the recursive check, beginning with the resource itself.
-        return checkAccessRecursive(user, resource, new Permission(permissionName), grants);
+        return checkAccessRecursive(userId, resource, new Permission(permissionName), grants);
     }
 
-    private boolean checkAccessRecursive(User user, AuthorizableResource resource, Permission permission, Set<PermissionGrant> grants) {
-        // Find grants that match the current resource and permission.
-        // We check in order of specificity: INSTANCE -> TYPE -> GLOBAL
-        
-        // Step 2a: Check for a grant scoped to this specific resource instance.
-        if (hasPermission(user, resource, permission, grants, Scope.ofInstance(resource.getResourceId()))) {
-            System.out.println("Result: GRANTED. Reason: User has a permission grant on the specific resource instance '" + resource.getResourceId() + "'.");
-            return true;
-        }
+    public void grantAccess(Role role, Permission permission, Scope scope) {
+        authRepository.addGrant(role, permission, scope);
+    }
 
-        // Step 2b: Check for a grant scoped to this resource's type.
-        if (hasPermission(user, resource, permission, grants, Scope.ofType(resource.getResourceType()))) {
-            System.out.println("Result: GRANTED. Reason: User has a permission grant for the resource type '" + resource.getResourceType() + "'.");
-            return true;
-        }
+    public void revokeAccess(Role role, Permission permission, Scope scope) {
+        authRepository.removeGrant(role, permission, scope);
+    }
 
-        // Step 2c: Check for a global grant.
-        if (hasPermission(user, resource, permission, grants, Scope.global())) {
-            System.out.println("Result: GRANTED. Reason: User has a global permission grant for '" + permission.getName() + "'.");
-            return true;
-        }
+    public void assignRole(int userId, Role role) {
+        authRepository.addUserRole(userId, role);
+    }
 
-        // Step 3: If no permission found at this level, traverse up the hierarchy.
+    public void addPolicy(Permission permission, Policy policy) {
+        authRepository.addPermissionPolicy(permission, policy);
+    }
+
+    private boolean checkAccessRecursive(int userId, AuthorizableResource resource, Permission permission, Set<PermissionGrant> grants) {
+        if (checkGrant(userId, resource, permission, grants, Scope.ofInstance(resource.getResourceId()), 
+                "permission grant on the specific resource instance '" + resource.getResourceId() + "'")) return true;
+
+        if (checkGrant(userId, resource, permission, grants, Scope.ofType(resource.getResourceType()), 
+                "permission grant for the resource type '" + resource.getResourceType() + "'")) return true;
+
+        if (checkGrant(userId, resource, permission, grants, Scope.global(), 
+                "global permission grant for '" + permission.getName() + "'")) return true;
+
         String parentId = resource.getParentId();
         if (parentId != null) {
             System.out.println("No permission found at this level. Checking parent '" + parentId + "' for inherited permissions...");
             AuthorizableResource parentResource = resourceRepository.findById(parentId);
             if (parentResource != null) {
-                return checkAccessRecursive(user, parentResource, permission, grants);
+                return checkAccessRecursive(userId, parentResource, permission, grants);
             }
         }
 
@@ -69,7 +70,15 @@ public class AuthorizationService {
         return false;
     }
 
-    private boolean hasPermission(User user, AuthorizableResource resource, Permission permission, Set<PermissionGrant> grants, Scope scope) {
+    private boolean checkGrant(int userId, AuthorizableResource resource, Permission permission, Set<PermissionGrant> grants, Scope scope, String reason) {
+        if (hasPermission(userId, resource, permission, grants, scope)) {
+            System.out.println("Result: GRANTED. Reason: User has a " + reason + ".");
+            return true;
+        }
+        return false;
+    }
+
+    private boolean hasPermission(int userId, AuthorizableResource resource, Permission permission, Set<PermissionGrant> grants, Scope scope) {
         boolean rbacPassed = false;
         for (PermissionGrant grant : grants) {
             if (grant.getPermission().equals(permission) && grant.getScope().equals(scope)) {
@@ -78,14 +87,11 @@ public class AuthorizationService {
             }
         }
 
-        if (!rbacPassed) {
-            return false;
-        }
+        if (!rbacPassed) return false;
 
-        // If RBAC passes for this scope, we must also check the associated ABAC policies.
         List<Policy> policies = authRepository.findPoliciesForPermission(permission);
         for (Policy policy : policies) {
-            if (!policy.evaluate(user, resource)) {
+            if (!policy.evaluate(userId, resource)) {
                 System.out.println("  - ABAC Policy Failed: " + policy.getClass().getSimpleName() + " for scope " + scope.getType() + ":" + scope.getValue());
                 return false;
             }

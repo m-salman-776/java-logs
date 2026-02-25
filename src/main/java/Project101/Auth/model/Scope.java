@@ -41,7 +41,7 @@ public class Scope {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Scope scope = (Scope) o;
-        return type == scope.type && Objects.equals(value, scope.value);
+        return type == scope.type && value.equals(scope.value);
     }
 
     @Override

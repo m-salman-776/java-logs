@@ -13,11 +13,7 @@ public class Main {
         CountDownLatch latch = new CountDownLatch(3);
         CountDownLatch startupLatch = new CountDownLatch(2);
         Map<String,DBConnection> map = new ConcurrentHashMap<>();
-        SemaphoreBasedPoolManager<DBConnection> poolManager =
-                new SemaphoreBasedPoolManager<>(
-                2,10,
-                new DBConnectionResource()
-        );
+        SemaphoreBasedPoolManager<DBConnection> poolManager = new SemaphoreBasedPoolManager<>(2,10, new DBConnectionResourceFactory());
 
         Thread t1 = new Thread(()->{
            try {

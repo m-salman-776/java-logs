@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public class Role {
-    private final String id;
+    private final String id;// role-o1
     private final String name;
 
     public Role(String id, String name) {
