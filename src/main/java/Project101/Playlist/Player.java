@@ -5,8 +5,6 @@ import Project101.Playlist.PlaybackStrategies.PlaybackStrategy;
 import Project101.Playlist.PlaybackStrategies.SequentialStrategy;
 import Project101.Playlist.PlayerState.PlayerState;
 import Project101.Playlist.PlayerState.StoppedState;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
@@ -84,5 +82,6 @@ public class Player {
     
     public void pausePlayback() {
         System.out.println("...Pausing media rendering...");
+        this.pause();
     }
 }

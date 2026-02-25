@@ -33,7 +33,7 @@ public class StripPaymentGateway implements PaymentGateway {
 //
 //            // 3. Simulate Capture (Money is moved to merchant account)
 //            Thread.sleep(500);
-            return new PaymentResponse(paymentDetail.paymentStatus, paymentDetail.id);
+            return new PaymentResponse(PaymentStatus.CAPTURED, paymentDetail.id);
 
         } catch (Exception e) {
             Thread.currentThread().interrupt();
@@ -43,8 +43,8 @@ public class StripPaymentGateway implements PaymentGateway {
     }
 
     @Override
-    public RefundResponse refund(double amount, String transactionId) {
-        return null;
+    public RefundResponse refund(double amount, int transactionId) {
+        return new RefundResponse(transactionId, PaymentStatus.REFUNDED);
     }
     public PaymentResponse getPaymentStatus(int paymentId){
         PaymentDetails paymentDetails = paymentDetailsMap.get(paymentId);

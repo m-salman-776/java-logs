@@ -6,5 +6,5 @@ import Project101.PaymentSystem.DTO.RefundResponse;
 
 public interface PaymentGateway {
     PaymentResponse charge(double amount, PaymentRequest paymentDetail);
-    RefundResponse refund(double amount, String transactionId);
+    RefundResponse refund(double amount, int transactionId);
 }

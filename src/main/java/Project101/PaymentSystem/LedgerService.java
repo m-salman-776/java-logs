@@ -1,6 +1,6 @@
-package Project101.Payment.Services;
+package Project101.PaymentSystem;
 
-import Project101.Payment.Repository.DataRepository;
+import Project101.PaymentSystem.Repository.DataRepository;
 
 
 public class LedgerService {

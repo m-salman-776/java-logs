@@ -10,14 +10,14 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ReservationService {
     private final InventoryService inventoryService;
     private final Map<Integer, Reservation> reservationMap;
-    private final AtomicInteger idGenerator;
+    private final AtomicInteger reservationIdGenerator;
     private final ScheduledThreadPoolExecutor scheduledThreadPoolExecutor ;
     public ReservationService(InventoryService inventoryService){
         this.inventoryService = inventoryService;
         this.reservationMap = new ConcurrentHashMap<>();
-        this.idGenerator = new AtomicInteger(0);
+        this.reservationIdGenerator = new AtomicInteger(0);
         this.scheduledThreadPoolExecutor = new ScheduledThreadPoolExecutor(1);
-//        this.scheduledThreadPoolExecutor.schedule(this.inventoryService::cleanupAllInventories,1,TimeUnit.DAYS);
+//        this.scheduledThreadPoolExecutor.schedule(this.inventoryService::cleanupAllInventories,1,TimeUnit.DAYS); not required here as clean-up will be call
     }
 
     public Reservation createReservation(LocalDate startDate, LocalDate endDate, int roomType, int quantity){
@@ -29,7 +29,7 @@ public class ReservationService {
         }
 
         // 2. Create Reservation Record
-        int reservationId = idGenerator.incrementAndGet();
+        int reservationId = reservationIdGenerator.incrementAndGet();
         Reservation reservation = new Reservation(reservationId, startDate, endDate, roomType, quantity);
 
         reservationMap.put(reservationId, reservation);

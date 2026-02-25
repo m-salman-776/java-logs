@@ -1,11 +1,16 @@
 package Project101.PaymentSystem.DTO;
 
+import lombok.Getter;
+
 public class Payment {
     public int id;
     int orderId;
-    double amount;
+    public double amount;
     int userId;
-    PaymentStatus status;
+    @Getter
+    public PaymentStatus status;
+    public int gatewayTransactionId; // Store the ID returned by the gateway
+
     public Payment(int id,int orderId,double amount,int userId){
         this.id = id;
         this.orderId = orderId;
@@ -15,5 +20,8 @@ public class Payment {
     }
     public void updatePaymentStatus(PaymentStatus status){
         this.status = status;
+    }
+    public void setGatewayTransactionId(int gatewayTransactionId) {
+        this.gatewayTransactionId = gatewayTransactionId;
     }
 }

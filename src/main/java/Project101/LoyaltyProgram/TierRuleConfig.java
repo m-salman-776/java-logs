@@ -1,7 +1,5 @@
 package Project101.LoyaltyProgram;
 
-import Project101.BookingSystem.MoviesBooking.Model.Booking;
-
 import java.util.HashMap;
 import java.util.Map;
 

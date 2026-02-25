@@ -1,8 +1,11 @@
 package Project101.HotelReservation;
 
+import javax.imageio.plugins.tiff.TIFFImageReadParam;
 import java.time.LocalDate;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 public class RoomInventory {
     private final int totalCapacity;
@@ -10,9 +13,13 @@ public class RoomInventory {
     // Key: Date, Value: Number of rooms reserved on that date
     private final Map<LocalDate, Integer> dailyReservations;
 
+//    ScheduledThreadPoolExecutor executor ;
+
     public RoomInventory(int totalCapacity) {
         this.totalCapacity = totalCapacity;
         this.dailyReservations = new ConcurrentHashMap<>();
+//        executor.scheduleAtFixedRate(this::removeExpiredReservations,1,1,TimeUnit.DAYS);
+        // this can be used to clean up reservation;
     }
 
     /**
