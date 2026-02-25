@@ -8,7 +8,7 @@ public class UPIPaymentDetails implements PaymentMethodDetails {
     }
 
     @Override
-    public PaymentMethodType getType() {
-        return PaymentMethodType.UPI;
+    public PaymentMethod getType() {
+        return PaymentMethod.UPI;
     }
 }

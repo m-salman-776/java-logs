@@ -18,7 +18,7 @@ public class PaymentRequest {
         this.paymentMethodDetails = paymentMethodDetails;
     }
     
-    public PaymentMethodType getPaymentMethodType() {
+    public PaymentMethod getPaymentMethodType() {
         return paymentMethodDetails.getType();
     }
 }

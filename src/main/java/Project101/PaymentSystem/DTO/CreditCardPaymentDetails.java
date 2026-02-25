@@ -12,7 +12,7 @@ public class CreditCardPaymentDetails implements PaymentMethodDetails {
     }
 
     @Override
-    public PaymentMethodType getType() {
-        return PaymentMethodType.CREDIT_CARD;
+    public PaymentMethod getType() {
+        return PaymentMethod.CREDIT_CARD;
     }
 }

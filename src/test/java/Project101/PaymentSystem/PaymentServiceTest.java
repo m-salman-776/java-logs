@@ -1,7 +1,6 @@
 package Project101.PaymentSystem;
 
 import Project101.PaymentSystem.DTO.*;
-import Project101.PaymentSystem.Gateway.PaymentGateway;
 import Project101.PaymentSystem.Gateway.RazorPayPaymentGateway;
 import Project101.PaymentSystem.Gateway.StripPaymentGateway;
 import org.junit.Before;
@@ -96,7 +95,7 @@ public class PaymentServiceTest {
                 new UPIPaymentDetails("test@upi")
         );
         
-        assertEquals(PaymentMethodType.UPI, request.getPaymentMethodType());
+        assertEquals(PaymentMethod.UPI, request.getPaymentMethodType());
     }
 
     @Test
