@@ -77,7 +77,8 @@ public class ExpenseService {
         // - what I owe others
         for (Map.Entry<Integer, Map<Integer, Double>> entry : balanceSheet.entrySet()) {
             int lenderId = entry.getKey();
-            Double amount = entry.getValue().get(userId);
+            if (lenderId == userId) continue; // skip myself
+            Double amount = entry.getValue().get(userId); // no need to check userId in borrowe as this would null mean not borrowed
             if (amount == null || amount <= 0.01) continue;
             System.out.printf("You owe User %d : %.2f\n", lenderId, amount);
             net -= amount;
@@ -96,7 +97,9 @@ public class ExpenseService {
                 netBalance.put(borrower,netBalance.getOrDefault(borrower,0.0)-entry.getValue());
             }
         }
+        // max heap
         PriorityQueue<Map.Entry<Integer,Double>> creditor = new PriorityQueue<>((a,b) -> Double.compare(b.getValue(),a.getValue()));
+        // min heap;
         PriorityQueue<Map.Entry<Integer,Double>> debtor = new PriorityQueue<>((a,b) -> Double.compare(a.getValue(),b.getValue()));
 
         for (Map.Entry<Integer,Double> entry : netBalance.entrySet()){

@@ -46,12 +46,22 @@ class Bucket {
     }
     private void refill(){
         long elapsedTime = System.currentTimeMillis() - lastRefillTime;
-        if (elapsedTime < refillMs) {
+        if (refillMs > elapsedTime) {
             return;
         }
         int tokenToAdd = (int) (elapsedTime / refillMs);
         currentToken = Math.min(currentToken+tokenToAdd,maxToken);
         lastRefillTime += tokenToAdd * refillMs;
+        /*
+        * refilMs = 1000ms
+        * elapsedTime = 2500ms
+        * tokenToAdd = 2500ms / 1000ms = 2
+        * timeConsumed = 2 * 1000 = 2000ms
+        * remaining time = 2500-2000 = 500ms
+        * lastRefillTime += 2 * 1000 (500ms save)
+        * if simply do lastRefillTime = System.currentTimeMillis() which wrong
+        * */
+        // (int) (elapsedTime / refillMs) * refillMs
     }
 
 }

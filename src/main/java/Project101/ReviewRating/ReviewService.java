@@ -9,6 +9,7 @@ public class ReviewService {
     Map<Integer, ConcurrentSkipListSet<Integer>> entityReview;
     // key : EntityId :
     Map<Integer,ReviewSummary> reviewSummary;
+    // reviewId : Review
     Map<Integer,Review> reviews;
     AtomicInteger reviewIdGen;
     public ReviewService(){

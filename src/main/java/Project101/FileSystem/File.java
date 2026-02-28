@@ -4,11 +4,11 @@ import java.io.FileNotFoundException;
 
 public class File extends FileSystemNode{
     private byte[] content;
-    FileSystemNode fileSystemNode;
+    FileSystemNode parent;
     long setLastModifiedTime;
-    File(String name, FileSystemNode fileSystemNode){
+    File(String name, FileSystemNode parent){
         super(name,false);
-        this.fileSystemNode = fileSystemNode;
+        this.parent = parent;
         this.content = new byte[]{};
     }
     @Override

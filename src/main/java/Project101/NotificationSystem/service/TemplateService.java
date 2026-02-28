@@ -22,13 +22,12 @@ public class TemplateService {
     }
 
     public String renderTemplate(String templateContent, Map<String, String> params) {
-        String renderedContent = templateContent;
         if (params != null) {
             for (Map.Entry<String, String> entry : params.entrySet()) {
                 String placeholder = "{{" + entry.getKey() + "}}";
-                renderedContent = renderedContent.replace(placeholder, entry.getValue());
+                templateContent = templateContent.replace(placeholder, entry.getValue());
             }
         }
-        return renderedContent;
+        return templateContent;
     }
 }

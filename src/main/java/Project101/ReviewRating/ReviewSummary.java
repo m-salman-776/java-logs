@@ -3,7 +3,6 @@ package Project101.ReviewRating;
 public class ReviewSummary {
     double ratingSum;
     int count;
-//    Map<>
     public ReviewSummary(double ratingSum,int count){
         this.ratingSum = ratingSum;
         this.count = count;
