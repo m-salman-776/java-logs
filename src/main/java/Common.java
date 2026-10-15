@@ -1,48 +1,73 @@
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+/*
+* Given an array of intervals where intervals[i] = [start, end],
+* merge all overlapping intervals,
+* and return an array of the non-overlapping intervals
+* that cover all the intervals in the input.
+*
+Input: intervals = [[1,3],[2,6],[8,10],[15,18]]
+Output: [[1,6],[8,10],[15,18]]
+*
+*
+* [1,6] []
+[1,3] [2,6]
+Input: intervals = [[1,4],[4,5]]
+Output: [[1,5]]
+*
+* */
+
+/*
+* Given an m x n 2D binary grid grid which represents a map of '1's (land) and '0's (water), return the number of islands.
+
+An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically. You may assume all four edges of the grid are all surrounded by water.
+
+
+
+Example 1:
+
+Input: grid = [
+  ["1","1","1","1","0"],
+  ["1","1","0","1","0"],
+  ["1","1","0","0","0"],
+  ["0","0","0","0","0"]
+]
+Output: 1
+Example 2:
+
+Input: grid = [
+  ["1","1","0","0","0"],
+  ["1","1","0","0","0"],
+  ["0","0","1","0","0"],
+  ["0","0","0","1","1"]
+
+]
+*
+*
+*
+* longest palidromic sub
+*
+* ababd
+*
+*
+*
+* */
+
+import lombok.AllArgsConstructor;
+import software.amazon.awssdk.services.s3.endpoints.internal.Value;
+
 import java.util.*;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+
+//Input
+//T 0, A, 4, UP, 14
+//T 7, C, 5, UP, 8
 public class Common {
     public static void main(String[] args) {
-        Map<Integer,Integer> map = new LinkedHashMap<>(1,0.75f,true){
+        Timer timer = new Timer();
+        TimerTask ts = new TimerTask() {
             @Override
-            protected boolean removeEldestEntry(Map.Entry<Integer, Integer> eldest) {
-                return size() > 1;
+            public void run() {
+                System.out.print("DINE");
             }
         };
-        Set<Integer> st = new HashSet<>();
-        TreeSet<Integer> sorted = new TreeSet(st);
-        Integer a  = sorted.lower(1);
-        map.compute(1,(k,v)-> {
-            if (v == null) return 0;
-            else return v + 1;
-        });
-        int []arr = new int[]{1,2,34};
-//        Arrays.se
-        map.merge(1,34,Integer::max);
-        StringBuilder sb = new StringBuilder();
-        sb.append(1);
-        sb.append(2);
-        sb.toString();
-        Collections.binarySearch(List.of(12,3,4,5),1);
-        sb.deleteCharAt(0);
-        String str = "fsdfasd";
-
-        Arrays.sort(arr);
-        str = String.valueOf(arr);
-        List<Map.Entry<Character,Integer>> gro = new ArrayList<>();
-        gro.add(Map.entry('c',1));
-        Map.entry('1',1);
-        map.merge(1,1,Integer::sum);
-        ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1);
-        Stack<Integer> count = new Stack<>();
-        executor.scheduleAtFixedRate(()->{
-            LocalDateTime dateTime = LocalDateTime.now();
-            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            String formatedDateTime = dateTimeFormatter.format(dateTime);
-            System.out.println(formatedDateTime);
-        },0,1, TimeUnit.SECONDS);
-        System.out.println("DONE");
+        timer.schedule(ts, 12);
     }
 }

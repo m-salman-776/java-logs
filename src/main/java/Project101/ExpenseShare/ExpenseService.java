@@ -43,11 +43,12 @@ public class ExpenseService {
             throw  new IllegalArgumentException("ExpenseId Not found");
         }
         deleteExpense(expenseId);
-        Expense expense = new Expense(expenseId, payerId, totalAmount, description, type, splits);
-        expenseMap.put(expenseId, expense);
-        List<ExpenseSplit> expenseSplits = StrategyFactory.getSplitStrategy(expense.splitType).calculateSplits(expense);
-        expenseSplitMap.put(expenseId, expenseSplits);
-        updateBalanceSheet(expenseSplits, payerId, true);
+        addExpense(payerId,totalAmount,description,type,splits);
+//        Expense expense = new Expense(expenseId, payerId, totalAmount, description, type, splits);
+//        expenseMap.put(expenseId, expense);
+//        List<ExpenseSplit> expenseSplits = StrategyFactory.getSplitStrategy(expense.splitType).calculateSplits(expense);
+//        expenseSplitMap.put(expenseId, expenseSplits);
+//        updateBalanceSheet(expenseSplits, payerId, true);
     }
     private synchronized void updateBalanceSheet(List<ExpenseSplit> splits, int payerId, boolean isAdd){
         for (ExpenseSplit split : splits) {
@@ -87,6 +88,7 @@ public class ExpenseService {
         System.out.printf("============================ End of User's %d Statement ===========================\n",userId);
         return net;
     }
+
     public List<ExpenseTransaction> debtSimplication(){
         Map<Integer,Double> netBalance = new HashMap<>();
         // [lender,[debtor,double]]

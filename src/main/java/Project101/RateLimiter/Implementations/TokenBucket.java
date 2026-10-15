@@ -11,7 +11,7 @@ public class TokenBucket implements RateLimitAlgorithm {
     public TokenBucket(){
 
     }
-    public synchronized void addBucket(String key,int maxToken,long refillMs){
+    public void addBucket(String key,int maxToken,long refillMs){
         this.bucketMap.computeIfAbsent(key,k -> new Bucket(maxToken,refillMs));
     }
     @Override

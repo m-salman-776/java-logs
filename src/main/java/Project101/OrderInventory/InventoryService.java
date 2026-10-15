@@ -15,6 +15,13 @@ public class InventoryService {
 
     public InventoryService(){
         scheduledThreadPoolExecutor = new ScheduledThreadPoolExecutor(2);
+        ThreadPoolExecutor executor = new ThreadPoolExecutor(
+                1,
+                5,
+                10 , TimeUnit.SECONDS,
+                new ArrayBlockingQueue<>(10),
+                new ThreadPoolExecutor.AbortPolicy());
+
     }
 
     public int getAvailableQuantity(int productId){
