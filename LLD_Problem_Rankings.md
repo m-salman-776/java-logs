@@ -1,76 +1,86 @@
-# LLD Problem Rankings
+# LLD Problem Rankings (Comprehensive & Final)
 
-This document provides a ranked analysis of the Low-Level Design (LLD) problems found in the `/src/main/java/Project101` directory. The problems are ranked based on their complexity, the concepts they cover, and the quality of the solution, to help you focus your preparation on the more challenging and comprehensive examples.
-
----
-
-## Tier 1: Hard (Complex Distributed Systems & Advanced Concepts)
-
-These problems involve multiple services, asynchronous communication, and advanced design patterns. They are excellent for preparing for senior-level interviews.
-
-### 1. Order Management System (OMS)
-- **Directory:** `OMS`
-- **Complexity:** High
-- **Core Concepts:**
-    - **Microservices Architecture:** Simulates a real-world e-commerce backend with multiple services (Order, Inventory, Payment).
-    - **Saga Pattern (Orchestration):** The `OrderOrchestrator` is a central piece that manages a distributed transaction, which is a very relevant and advanced topic.
-    - **State Machines:** The order lifecycle is managed via a well-defined state machine.
-    - **Asynchronous Communication:** Uses message queues (like Kafka) to decouple services.
-    - **Idempotency & Compensating Transactions:** Includes logic for handling duplicate requests and rolling back failed transactions.
-- **Why it's a top problem:** This is a full-fledged distributed systems design problem in a nutshell. Understanding this solution deeply will prepare you for a wide range of complex LLD questions.
+This document provides a comprehensive analysis and ranking of all 40 Low-Level Design (LLD) problems in the `/src/main/java/Project101` directory. The problems are ranked to help you focus your preparation on the most challenging and valuable examples.
 
 ---
 
-## Tier 2: Medium-Hard (Sophisticated Single-System Design)
+## Tier 1: Hard (Distributed Systems & Advanced Concurrency)
 
-These problems involve complex logic within a single service, often requiring a deep understanding of data modeling and advanced design patterns.
+These problems model complex, real-world systems, often involving multiple services, advanced concurrency patterns, and high-performance requirements. Mastering these indicates a senior-level understanding of LLD.
 
-### 2. Auth (RBAC + ABAC System)
-- **Directory:** `Auth`
-- **Complexity:** Medium-High
-- **Core Concepts:**
-    - **Hybrid Authorization Model:** Combines Role-Based Access Control (RBAC) with Attribute-Based Access Control (ABAC), which is a very powerful and flexible approach.
-    - **Advanced Data Modeling:** The schema is well-designed to handle roles, permissions, scopes, and inheritable permissions.
-    - **Policy Engine:** The concept of attaching policy classes (`OwnershipPolicy`) to permissions is a key part of ABAC and demonstrates a sophisticated design.
-- **Why it's a top problem:** It goes far beyond simple CRUD and tackles a complex, real-world problem. It's a great example of how to design a flexible and extensible authorization system.
-
----
-
-## Tier 3: Medium (Core LLD & Data Structures)
-
-These problems are classic LLD interview questions that test your understanding of core data structures and object-oriented design principles.
-
-### 3. CricBuzz
-- **Directory:** `cricBuzz`
-- **Complexity:** Medium
-- **Core Concepts:**
-    - **Rich Domain Modeling:** Requires modeling a complex domain (a cricket match) with many interacting classes (`Match`, `Inning`, `Player`, `Ball`, etc.).
-    - **Database Schema Design:** The `README` shows a well-thought-out schema, including the use of `JSONB` for flexibility.
-    - **Object-Oriented Principles:** A good example of applying encapsulation, inheritance (for different match types), and composition.
-- **Why it's a good problem:** It's a great test of your ability to translate a complex real-world scenario into a clean, object-oriented model.
-
-### 4. Playlist Player
-- **Directory:** `Playlist`
-- **Complexity:** Medium
-- **Core Concepts:**
-    - **Behavioral Design Patterns:** The solution correctly uses the **State Pattern** to manage the player's state (`Playing`, `Paused`) and the **Strategy Pattern** for different playback modes (`Shuffle`, `Sequential`).
-    - **Polymorphism:** Uses a `Playable` interface to handle different media types (songs, podcasts) uniformly.
-- **Why it's a good problem:** It's a perfect, self-contained example of how to use common behavioral design patterns to create a flexible and maintainable system.
-
-### 5. LFU Cache
-- **Directory:** `Cache`
-- **Complexity:** Medium
-- **Core Concepts:**
-    - **Advanced Data Structures:** Requires a combination of hash maps and a doubly linked list to achieve an efficient O(1) implementation.
-    - **Algorithm Design:** The logic for tracking frequency and evicting the least frequently used item is non-trivial.
-- **Why it's a good problem:** It's a classic LLD problem that directly tests your data structure and algorithm skills. The provided implementation has some bugs, making it a good exercise for code review and debugging.
+1.  **Rate Limiter**: A pure, high-performance systems design problem using a configuration-driven rule engine and the Strategy pattern. Excellent for discussing low-latency, extensible services.
+2.  **Order Management System (OMS)**: A full-fledged distributed systems problem using the Saga pattern, message queues, and compensating transactions to manage an e-commerce order lifecycle.
+3.  **Stock Brokerage**: A high-complexity system whose core is a low-latency order matching engine. The design realistically includes portfolio management with lot tracking for capital gains.
+4.  **Auction System**: A real-time bidding system using WebSockets, optimistic locking for concurrency, and a hybrid SQL/Redis persistence model. The design includes advanced features like proxy bidding and anti-sniping.
+5.  **Code Editor / Execution Platform**: Models a complex backend like LeetCode, featuring an asynchronous worker queue architecture and the Strategy pattern for handling different programming languages.
+6.  **Ride-Sharing App**: A challenging problem involving real-time geospatial matching, state machines for the ride lifecycle, and real-time notifications.
+7.  **Incident Alerting System (PagerDuty Clone)**: A complex system for managing on-call rotations and incident response, focusing on escalation policies and multi-channel notifications.
+8.  **In-Memory Database (MySql / InMemoryDB)**: A highly ambitious problem that involves designing the core components of a database, including tables, schemas, indexing, and transactions.
 
 ---
 
-## Summary for Preparation
+## Tier 2: Medium-Hard (Advanced OOP & Concurrent Design)
 
-- **Start with Tier 3:** Make sure you have a rock-solid understanding of the `cricBuzz`, `Playlist`, and `LFU Cache` problems. These cover the fundamental skills of OOP, data structures, and common design patterns.
-- **Move to Tier 2:** The `Auth` system is a great step up. Focus on understanding the data model and how it enables the hybrid RBAC/ABAC system.
-- **Master Tier 1:** The `OMS` is the most comprehensive problem. If you can understand and explain this design, you are likely well-prepared for even the most challenging LLD interviews.
+These problems focus on a single, stateful service and require a strong command of OOP, design patterns, and concurrency control.
+
+9.  **Hotel Reservation System**: A classic concurrency problem focused on managing inventory across date ranges. The solution correctly uses `synchronized` blocks and a `ScheduledThreadPoolExecutor` for auto-cancellation.
+10. **Movie Booking System (V2)**: A robust booking system that correctly uses **Optimistic Locking** (`version` column) to handle concurrent seat selection—a key differentiator from more basic booking systems.
+11. **Expense Sharing App (Splitwise Clone)**: A great mix of OOP (Strategy pattern for splits) and a non-trivial algorithmic challenge (debt simplification).
+12. **Resource Pool**: A pure concurrency problem. The implementation correctly uses `Semaphore` and `BlockingQueue` to build a generic, thread-safe object pool.
+13. **Meeting Scheduler (Google Calendar Clone)**: Manages state for multiple interacting entities (users, rooms) and handles complex availability logic, including support for recurring meetings.
+14. **File System**: A clean, robust implementation of an in-memory file system. Excellent use of the Composite pattern and a good example of handling complex, recursive logic like path resolution.
+15. **Currency Converter**: A great example of the Strategy pattern. The `GraphExchangeRateProvider` elevates the problem by introducing a graph traversal algorithm to find multi-step conversion paths.
+16. **Consistent Hashing**: A focused implementation of a fundamental distributed systems algorithm. The code correctly uses a `TreeMap` and virtual nodes to ensure uniform data distribution.
+17. **Project Assignment System**: A resource allocation problem that correctly uses atomic operations (`compareAndSetBusy`) to manage concurrency, demonstrating a sophisticated approach to thread safety.
+18. **Elevator System (V2)**: A very detailed and granular OOP model that uses the Strategy pattern for its core dispatching logic, making it highly extensible.
+19. **Order Inventory**: A focused concurrency problem that correctly models inventory reservation and solves the race condition between order completion and reservation timeout using atomic map operations.
+20. **Payment System**: A fantastic example of using multiple design patterns (Gateway, Factory, Strategy) together to build a flexible system that integrates with external payment providers.
+21. **LLM Router V2**: A sophisticated implementation of the Circuit Breaker pattern. It uses a state machine and concurrent data structures to dynamically route traffic based on provider health.
+
+---
+
+## Tier 3: Medium (Standard LLD Problems)
+
+These are common LLD problems that test core OOP principles and data structures.
+
+22. **Auth (RBAC + ABAC)**: A good blend of data modeling and policy engine design. Focuses on creating a flexible and extensible data schema for authorization.
+23. **Review & Rating System**: A solid, thread-safe service using concurrent data structures. Focuses on efficient data aggregation (calculating average ratings).
+24. **Car Rental System**: A standard business application LLD. Good for demonstrating data modeling skills for a complete system, including entities for reservations, billing, and logging.
+25. **Chat System**: A classic example of the Observer design pattern. Good for demonstrating an understanding of basic behavioral patterns for real-time updates.
+26. **Notification System**: A good example of a standard backend service that uses an asynchronous queue-based architecture (Producer-Consumer) and common creational patterns (Factory, Builder).
+27. **Loyalty Program**: A good example of a rule-based system. The current implementation has bugs, which makes it a useful case study for code review and debugging.
+28. **LFU Cache**: A good data structures and algorithms problem that is more complex than the basic LRU cache.
+29. **Chess**: A classic OOP modeling problem. Requires good class design (inheritance for pieces) and algorithmic logic for move validation.
+30. **Online Shopping System**: A more basic, high-level version of an e-commerce system. It's a good starting point but is superseded by the more detailed `OMS` design.
+31. **Movie Ticket (V1)**: A more basic version of a movie booking system. It lacks the explicit concurrency control found in the V2 `BookingSystem`.
+32. **Elevator System (V1)**: A more basic version of the elevator system. It lacks the detailed OOP model and the Strategy pattern found in V2.
+
+---
+
+## Tier 4: Easy (Entry-Level & Incomplete)
+
+These are good for warm-ups or demonstrating a basic grasp of OOP, but they lack significant complexity.
+
+33. **Snake and Ladder**: A simple board game LLD. Tests basic OOP and state management.
+34. **Tic-Tac-Toe**: The simplest form of a game LLD problem. Good for a warm-up.
+35. **Coupon Management**: A very basic CRUD service. The implementation is too skeletal to be of much value as a design problem.
+
+---
+
+## Not Ranked (Conceptual or Empty)
+
+36. **SolidPrinciples**: Conceptual examples of SOLID principles, not an LLD problem.
+37. **VendingMachine**: Directory is empty.
+38. **LibraryManagement**: Directory only contains data models with no service logic.
+39. **Cache**: The `LRU` implementation is a skeleton.
+40. **Playlist**: The `README` is minimal, and while the structure implies patterns, the implementation is not detailed enough to rank higher.
+
+---
+
+## Recommended Study Path
+
+1.  **Solidify Fundamentals (Tier 3 & 4):** Make sure you can comfortably design problems like `Chess`, `CarRental`, and `ChatSystem`.
+2.  **Master Core Patterns & Concurrency (Tier 2):** Dive deep into `ExpenseShare` (Strategy), `ResourcePool` (Concurrency), `FileSystem` (Composite), and `HotelReservation` (Concurrency). These are the most common and high-value patterns.
+3.  **Tackle Distributed Systems (Tier 1):** Once you are confident with single-system design, move to the Tier 1 problems. Start with `RateLimiter` or `CodeEditor` as they are slightly more self-contained, then move to `OMS` and `AuctionSystem`.
 
 Good luck with your preparation!

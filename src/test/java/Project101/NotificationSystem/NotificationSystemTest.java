@@ -8,14 +8,15 @@ import Project101.NotificationSystem.model.NotificationTask;
 import Project101.NotificationSystem.queue.NotificationQueue;
 import Project101.NotificationSystem.service.NotificationService;
 import Project101.NotificationSystem.service.TemplateService;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Timeout;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class NotificationSystemTest {
 
@@ -23,7 +24,7 @@ public class NotificationSystemTest {
     private TemplateService templateService;
     private NotificationQueue queue;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         templateService = new TemplateService();
         notificationService = new NotificationService(templateService);
@@ -41,14 +42,18 @@ public class NotificationSystemTest {
         assertEquals("Welcome", message.getSubject());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testMessageBuilderInvalidRecipient() {
-        new Message.Builder(null, "Content").build();
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Message.Builder(null, "Content").build();
+        });
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testMessageBuilderInvalidContent() {
-        new Message.Builder("user@example.com", "").build();
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Message.Builder("user@example.com", "").build();
+        });
     }
 
     @Test
@@ -73,7 +78,8 @@ public class NotificationSystemTest {
         assertTrue(smsChannel instanceof Project101.NotificationSystem.channel.SmsChannel);
     }
 
-    @Test(timeout = 2000) // Fail if it takes longer than 2 seconds
+    @Test
+    @Timeout(value = 2, unit = TimeUnit.SECONDS)
     public void testNotificationServiceQueuesTask() throws InterruptedException {
         String recipient = "test-queue-" + System.currentTimeMillis() + "@example.com";
         Map<String, String> params = new HashMap<>();

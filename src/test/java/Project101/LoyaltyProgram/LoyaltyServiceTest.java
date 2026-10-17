@@ -1,16 +1,14 @@
 package Project101.LoyaltyProgram;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import java.util.Collection;
-
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class LoyaltyServiceTest {
     private LoyaltyService loyaltyService;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         loyaltyService = new LoyaltyService();
     }
@@ -35,12 +33,12 @@ public class LoyaltyServiceTest {
         // User makes 1 booking
         loyaltyService.processBookingEvent(new BookingEvent(1, BookingType.HOTEL, 100.0));
         // Should still be DEFAULT
-        assertEquals("User with 1 booking should be DEFAULT", Tier.DEFAULT, loyaltyService.getUserTier(1));
+        assertEquals(Tier.DEFAULT, loyaltyService.getUserTier(1), "User with 1 booking should be DEFAULT");
 
         // User makes 2nd booking
         loyaltyService.processBookingEvent(new BookingEvent(1, BookingType.HOTEL, 100.0));
         // Should be GENIUS_L1
-        assertEquals("User with 2 bookings should be GENIUS_L1", Tier.GENIUS_L1, loyaltyService.getUserTier(1));
+        assertEquals(Tier.GENIUS_L1, loyaltyService.getUserTier(1), "User with 2 bookings should be GENIUS_L1");
     }
 
     @Test
@@ -61,7 +59,7 @@ public class LoyaltyServiceTest {
         }
 
         // Should be L2
-        assertEquals("User with 5 bookings should be GENIUS_L2", Tier.GENIUS_L2, loyaltyService.getUserTier(1));
+        assertEquals(Tier.GENIUS_L2, loyaltyService.getUserTier(1), "User with 5 bookings should be GENIUS_L2");
     }
 
     @Test
@@ -90,6 +88,6 @@ public class LoyaltyServiceTest {
         highTier.updateConfig(BookingType.HOTEL, 100);
         loyaltyService.addTierConfig(highTier);
         
-        assertEquals("Should reach 100 bookings and qualify for GENIUS_L3", Tier.GENIUS_L3, loyaltyService.getUserTier(userId));
+        assertEquals(Tier.GENIUS_L3, loyaltyService.getUserTier(userId), "Should reach 100 bookings and qualify for GENIUS_L3");
     }
 }

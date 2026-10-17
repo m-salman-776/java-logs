@@ -1,13 +1,13 @@
 package Project101.LoyaltyProgram;
 
-import org.junit.Before;
-import org.junit.Test;
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class LoyaltyProgramVerificationTest {
     private LoyaltyService loyaltyService;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         loyaltyService = new LoyaltyService();
     }
@@ -30,7 +30,7 @@ public class LoyaltyProgramVerificationTest {
         Tier currentTier = loyaltyService.getUserTier(userId);
         
         // This assertion is expected to FAIL with the current code
-        assertEquals("User with 0 bookings should NOT qualify for GENIUS_L1", Tier.DEFAULT, currentTier);
+        assertEquals(Tier.DEFAULT, currentTier, "User with 0 bookings should NOT qualify for GENIUS_L1");
     }
 
     /**
@@ -54,7 +54,7 @@ public class LoyaltyProgramVerificationTest {
         Tier currentTier = loyaltyService.getUserTier(userId);
 
         // This assertion is expected to FAIL with the current code
-        assertEquals("User with 2 bookings SHOULD qualify for GENIUS_L1", Tier.GENIUS_L1, currentTier);
+        assertEquals(Tier.GENIUS_L1, currentTier, "User with 2 bookings SHOULD qualify for GENIUS_L1");
     }
 
     /**
@@ -89,6 +89,6 @@ public class LoyaltyProgramVerificationTest {
         
         // Even if logic was inverted, it should NOT grant L3 because spend is 0.
         // But it grants L3 because spend is ignored.
-        assertEquals("User with 0 spend should NOT qualify for GENIUS_L3", Tier.DEFAULT, currentTier);
+        assertEquals(Tier.DEFAULT, currentTier, "User with 0 spend should NOT qualify for GENIUS_L3");
     }
 }

@@ -3,17 +3,17 @@ package Project101.PaymentSystem;
 import Project101.PaymentSystem.DTO.*;
 import Project101.PaymentSystem.Gateway.RazorPayPaymentGateway;
 import Project101.PaymentSystem.Gateway.StripPaymentGateway;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class PaymentServiceTest {
 
     private PaymentService stripeService;
     private PaymentService razorPayService;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         stripeService = new PaymentService(new StripPaymentGateway());
         razorPayService = new PaymentService(new RazorPayPaymentGateway());

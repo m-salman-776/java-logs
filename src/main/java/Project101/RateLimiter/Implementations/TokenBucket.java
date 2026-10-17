@@ -1,67 +1,78 @@
 package Project101.RateLimiter.Implementations;
 
-import Project101.RateLimiter.Policy;
+import Project101.RateLimiter.RateLimitAlgorithm;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class TokenBucket implements RateLimitAlgorithm {
-    // key could usedId / combination of anything
-    Map<String, Bucket> bucketMap = new ConcurrentHashMap<>();
-    public TokenBucket(){
+    private final Map<String,Bucket> bucketMap = new ConcurrentHashMap<>();
 
+    private final long defaultMaxToken ;
+    private final long defaultRefillPeriodMs;
+
+    public TokenBucket(long defaultMaxToken, long defaultRefillPeriodMs){
+        this.defaultMaxToken = defaultMaxToken;
+        this.defaultRefillPeriodMs = defaultRefillPeriodMs;
     }
-    public void addBucket(String key,int maxToken,long refillMs){
-        this.bucketMap.computeIfAbsent(key,k -> new Bucket(maxToken,refillMs));
-    }
+
+
     @Override
-    public boolean isAllowed(String key, Policy policy) {
-//        Bucket bucket =
-        return false;
-//        Bucket bucket = this.bucketMap.putIfAbsent();
+    public boolean allowRequest(String key, long tokenRequested) {
+        Bucket bucket = bucketMap.computeIfAbsent(key,k -> new Bucket(defaultMaxToken,defaultRefillPeriodMs));
+        return bucket.tryConsume(tokenRequested);
     }
 
-}
-class Bucket {
-    long refillMs;
-    long lastRefillTime;
-    int currentToken;
-    int maxToken;
-    public Bucket(int maxToken, long refillMs){
-        this.maxToken = maxToken;
-        this.refillMs = refillMs;
-        this.currentToken = maxToken;
-        this.lastRefillTime = System.currentTimeMillis();
-    }
-    public synchronized void consume() throws InterruptedException {
-        refill();
-        while (currentToken == 0){
-            long elapsedTime = System.currentTimeMillis() - lastRefillTime;
-            if (refillMs > elapsedTime) { // refil ms yet to be reached;
-                this.wait(refillMs-elapsedTime);
+
+    private static class Bucket {
+        private final long maxToken;
+        private final long refillPeriodMs;
+
+        // Primitives replace Atomics
+        private long currentToken;
+        private long lastFillTimestamp;
+
+        private Bucket(long maxToken, long refillPeriodMs) {
+            this.maxToken = maxToken;
+            this.refillPeriodMs = refillPeriodMs;
+            this.currentToken = maxToken;
+            this.lastFillTimestamp = System.currentTimeMillis();
+        }
+
+        // Synchronized guarantees strict atomicity for both variables at once
+        public synchronized boolean tryConsume(long requestedToken) {
+            refill(); // Safe to call here; we already hold the lock
+
+            if (this.currentToken < requestedToken) {
+                return false;
             }
-            refill();
-        }
-        currentToken -= 1;
-    }
-    private void refill(){
-        long elapsedTime = System.currentTimeMillis() - lastRefillTime;
-        if (refillMs > elapsedTime) {
-            return;
-        }
-        int tokenToAdd = (int) (elapsedTime / refillMs);
-        currentToken = Math.min(currentToken+tokenToAdd,maxToken);
-        lastRefillTime += tokenToAdd * refillMs;
-        /*
-        * refilMs = 1000ms
-        * elapsedTime = 2500ms
-        * tokenToAdd = 2500ms / 1000ms = 2
-        * timeConsumed = 2 * 1000 = 2000ms
-        * remaining time = 2500-2000 = 500ms
-        * lastRefillTime += 2 * 1000 (500ms save)
-        * if simply do lastRefillTime = System.currentTimeMillis() which wrong
-        * */
-        // (int) (elapsedTime / refillMs) * refillMs
-    }
 
+            this.currentToken -= requestedToken;
+            return true;
+        }
+
+        private void refill() {
+            long now = System.currentTimeMillis();
+            long elapsedDuration = now - this.lastFillTimestamp;
+
+            if (elapsedDuration < refillPeriodMs) {
+                return;
+            }
+
+            long tokensToAdd = elapsedDuration / refillPeriodMs;
+
+            this.lastFillTimestamp += tokensToAdd * refillPeriodMs;
+            this.currentToken = Math.min(this.currentToken + tokensToAdd, this.maxToken);
+
+            /*
+             * refilMs = 1000ms
+             * elapsedTime = 2500ms
+             * tokenToAdd = 2500ms / 1000ms = 2
+             * timeConsumed = 2 * 1000 = 2000ms
+             * remaining time = 2500-2000 = 500ms
+             * lastRefillTime += 2 * 1000 (500ms save)
+             * if simply do lastRefillTime = System.currentTimeMillis() which wrong
+             * */
+        }
+    }
 }

@@ -8,11 +8,11 @@ import Project101.Auth.repository.MockResourceRepository;
 import Project101.Auth.resource.File;
 import Project101.Auth.resource.Folder;
 import Project101.Auth.service.AuthorizationService;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class AuthorizationServiceTest {
 
@@ -27,7 +27,7 @@ public class AuthorizationServiceTest {
     private Permission viewPerm;
     private Permission editPerm;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         authRepo = new MockAuthorizationRepository();
         resourceRepo = new MockResourceRepository();
@@ -123,12 +123,10 @@ public class AuthorizationServiceTest {
         resourceRepo.save(bobsDoc);
 
         // Alice (Editor) tries to edit her own doc -> Should PASS (RBAC + ABAC)
-        assertTrue("Alice should be able to edit her own doc", 
-                authService.isAuthorized(aliceId, alicesDoc, "document:edit"));
+        assertTrue(authService.isAuthorized(aliceId, alicesDoc, "document:edit"), "Alice should be able to edit her own doc");
 
         // Alice (Editor) tries to edit Bob's doc -> Should FAIL (RBAC passes, ABAC fails)
-        assertFalse("Alice should NOT be able to edit Bob's doc due to ownership policy", 
-                authService.isAuthorized(aliceId, bobsDoc, "document:edit"));
+        assertFalse(authService.isAuthorized(aliceId, bobsDoc, "document:edit"), "Alice should NOT be able to edit Bob's doc due to ownership policy");
     }
 
     @Test

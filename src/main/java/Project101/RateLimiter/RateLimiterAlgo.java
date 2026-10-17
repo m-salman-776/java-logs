@@ -5,4 +5,5 @@ public enum RateLimiterAlgo {
     LEAKY_BUCKET,
     TOKEN_BUCKET,
     SLIDING_WINDOW,
+    SLIDING_WINDOW_COUNTER
 }

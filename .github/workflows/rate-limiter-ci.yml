@@ -1,0 +1,26 @@
+name: Rate Limiter CI
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Amazon Corretto JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'corretto' # Matches your local Java runtime
+          cache: 'maven'           # Speeds up subsequent runs
+
+      - name: Run Rate Limiter Tests
+        # The -Dtest flag ensures we only run tests in this specific package for now
+        run: mvn test -Dtest="Project101.RateLimiter.**"
